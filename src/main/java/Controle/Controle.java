@@ -5,6 +5,8 @@
  */
 package Controle;
 
+import Modele.DAO;
+import Modele.DataSourceFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,20 +34,61 @@ public class Controle extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Controle</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Controle at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+             
+        if (actionIs(request, "Connexion")) {
+            newConnection(request, response);
         }
+        else if (actionIs(request, "Déconnexion")) {
+            showView("Connexion.jsp", request, response);
+            //endGame(request, response);
+        }
+        else {
+            showView("Connexion.jsp", request, response);
+	}
     }
+        private void newConnection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+             
+            HttpSession session = request.getSession();
+            
+            String user = request.getParameter("nomUtili");
+            session.setAttribute("nomUtili", user);
+            
+            String mdp = request.getParameter("mdp");
+            session.setAttribute("nomUtili", user);
+            
+            if ( mdp.equals("admin") && user.equals("admin") ) pageAdmin(request, response);
+            //else if{
+                
+            //}
+            else{
+                String err = "Nom ou mot de passe incorrect";
+                request.setAttribute("erreur", err);
+            }
+	}
+    
+    
+    	private void pageClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            HttpSession session = request.getSession();
+            
+            showView("Client.jsp", request, response);
+	}
+        
+        private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            HttpSession session = request.getSession();
+            
+            showView("Admin.jsp", request, response);
+	}
+    
+    
+        private boolean actionIs(HttpServletRequest request, String action) {
+            return action.equals(request.getParameter("action"));
+	}
+        
+        private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            getServletConfig().getServletContext().getRequestDispatcher("/Vue/" + jsp).forward(request, response);
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
