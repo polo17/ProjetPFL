@@ -14,7 +14,7 @@
     <body>
         <h1>Statistiques des commandes</h1>
         <p <span id="myPieChart"></span></p>
-        
+        <p>sdjkfhruie</p>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart']});
