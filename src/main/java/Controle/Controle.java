@@ -9,6 +9,10 @@ import Modele.DAO;
 import Modele.DataSourceFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +37,8 @@ public class Controle extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-             
+            throws ServletException, IOException, SQLException {
+
         if (actionIs(request, "Connexion")) {
             newConnection(request, response);
         }
@@ -46,25 +50,35 @@ public class Controle extends HttpServlet {
             showView("Connexion.jsp", request, response);
 	}
     }
-        private void newConnection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        private void newConnection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
             
             DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
+            List<String> logins = dao.getEmails();
+            List<Integer> mdps = dao.getCustomerIds();
              
             HttpSession session = request.getSession();
             
             String user = request.getParameter("nomUtili");
             session.setAttribute("nomUtili", user);
             
-            String mdp = request.getParameter("mdp");
+            int mdp = Integer.parseInt(request.getParameter("mdp"));
             session.setAttribute("nomUtili", user);
             
-            if ( mdp.equals("admin") && user.equals("admin") ) pageAdmin(request, response);
-            //else if{
-                
-            //}
+
+            if ( mdp == 0000 && user.equals("admin") ) pageAdmin(request, response);
+   
+            else if (mdps.contains(mdp) && logins.contains(user) &&
+                    mdps.indexOf(mdp) == logins.indexOf(user)){
+
+                pageClient(request, response);
+            }
+            
             else{
                 String err = "Nom ou mot de passe incorrect";
                 request.setAttribute("erreur", err);
+                
+                showView("Connexion.jsp", request, response);
             }
 	}
     
@@ -102,7 +116,11 @@ public class Controle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Controle.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -116,7 +134,11 @@ public class Controle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Controle.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
