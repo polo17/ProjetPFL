@@ -59,13 +59,16 @@ public class Controle extends HttpServlet {
              
             HttpSession session = request.getSession();
             
-            String user = request.getParameter("nomUtili");
-            session.setAttribute("nomUtili", user);
+            String user = request.getParameter("email");
+            session.setAttribute("email", user);
             
             int mdp = Integer.parseInt(request.getParameter("mdp"));
-            session.setAttribute("nomUtili", user);
             
-
+            System.out.println("dsqd"+user + mdp);
+            
+            
+            
+            
             if ( mdp == 0000 && user.equals("admin") ) pageAdmin(request, response);
    
             else if (mdps.contains(mdp) && logins.contains(user) &&
