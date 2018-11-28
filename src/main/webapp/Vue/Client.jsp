@@ -9,14 +9,39 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
         <title>Page Client</title>
     </head>
     <body>
         <h1>Mes espace Client</h1>
         <br>
-        <input href="ModifClient.jsp" name="action" value="Modifier mes données" type="SUBMIT" onclick="window.open('ModifClient.jsp','popup','width=700,height=400,left=200,top=200,scrollbars=1');">
+
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifClient">
+            Modifier mes données
+        </button>
         
-        <h2>Mes commandes</h2>
+        <div id="modifClient" class="modal fade" tabindex="-1" role="dialog"  >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Modifier mes données</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-dark">Sauvegarder</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+    <h2>Mes commandes</h2>    
         <table border="1">
             <thead>
                 <tr>

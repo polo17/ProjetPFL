@@ -1,0 +1,22 @@
+body {
+    background: #112F3B; } 
+h1{
+    text-align:center;
+    color : #FAE3D6;
+}
+.btn-dark {
+    background: #2B7379;
+    color: #112F3B;   
+}
+.btn-dark:hover {
+    background: #E3CCBD;
+}
+   
+
+/*
+bleu foncé: 112F3B
+bleu moyen: 2B7379
+bleu clair: 6BBAB5
+beige clair: FAE3D6
+beige foncé: E3CCBD
+*/
