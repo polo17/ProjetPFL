@@ -32,32 +32,35 @@
                     <span aria-hidden="true" id="close">&times; </span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  <form>
-                      <div class="form-group">
-                            <label>Nom : </label><input type="text" name="nom" value="pasclick" readonly></div>
-                      <div class="form-group">
-                            <label>Adresse : </label><input type="text" name="adresse" value="click"></div>  
-                      <div class="form-group">
-                            <label>Complément : </label><input type="text" name="compadresse" value=""></div>  
-                      <div class="form-group">
-                            <label>Ville : </label><input type="text" name="ville" value=""></div>  
-                      <div class="form-group">
-                            <label>Code Postal : </label><input type="text" name="cp" value=""></div>  
-                      <div class="form-group">
-                            <label>Etat : </label><input type="text" name="etat" value=""></div>  
-                      <div class="form-group">
-                            <label>Téléphone : </label><input type="text" name="telephone" value=""></div>  
-                      <div class="form-group">
-                            <label>Fax : </label><input type="text" name="fax" value=""></div>  
-                      <div class="form-group">
-                            <label>Email : </label><input type="text" name="email" value=""></div>
+                  <form method="POST">
+                    
+                    <div class="modal-body">
+
+                          <div class="form-group">
+                                <label>Nom : </label><input type="text" name="nom" value="pasclick" readonly></div>
+                          <div class="form-group">
+                                <label>Adresse : </label><input type="text" name="adresse" value="click"></div>  
+                          <div class="form-group">
+                                <label>Complément : </label><input type="text" name="compadresse" value=""></div>  
+                          <div class="form-group">
+                                <label>Ville : </label><input type="text" name="ville" value=""></div>  
+                          <div class="form-group">
+                                <label>Code Postal : </label><input type="text" name="cp" value=""></div>  
+                          <div class="form-group">
+                                <label>Etat : </label><input type="text" name="etat" value=""></div>  
+                          <div class="form-group">
+                                <label>Téléphone : </label><input type="text" name="telephone" value=""></div>  
+                          <div class="form-group">
+                                <label>Fax : </label><input type="text" name="fax" value=""></div>  
+                          <div class="form-group">
+                                <label>Email : </label><input type="text" name="email" value=""></div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close2">Fermer</button>
+                      <button type="button" class="btn btn-dark" name="action" value="Modif_cli">Sauvegarder</button>
+                    </div>
                   </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close2">Fermer</button>
-                  <button type="button" class="btn btn-dark">Sauvegarder</button>
-                </div>
               </div>
             </div>
         </div>
@@ -96,12 +99,12 @@
                 </tr>
             </thead>
             <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
+                <td>${descriptions}</td>
+                <td>${quantites}</td>
+                <td>${prix}</td>
+                <td>${totaux}</td>
+                <td>${dates}</td>
+                <td>${companies}</td>
                 <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc">modifier</button>
                 <td><a href="?action=DELETE">supprimer</a></td>
             </tr>
@@ -159,7 +162,9 @@
             }
         </script>
         <br><br>
-        <input class="btn btn-dark" name="action" value="Déconnexion" type="SUBMIT">
+        <form method="POST">
+            <input class="btn btn-dark" name="action" value="Déconnexion" type="SUBMIT">
+        </form>
     </body>
 </html>
 

@@ -39,7 +39,8 @@
     
         
         
-        
-        <input name="action" value="Déconnexion" type="SUBMIT">
+        <form method="POST">
+            <input name="action" value="Déconnexion" type="SUBMIT">
+        </form> 
     </body>
 </html>

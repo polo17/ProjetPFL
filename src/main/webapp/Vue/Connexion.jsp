@@ -16,17 +16,19 @@
     </head>
     <body class="text-center">
         <br>
-        <form class="form-signin">
+        <form class="form-signin" method="POST">
           <h1>Veuillez vous connecter</h1>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" placeholder="Entrez votre email" name="email" required autofocus>
+                <input type="text" class="form-control" id="email" placeholder="Entrez votre email" name="email" required autofocus>  
           </div>
           <div class="form-group">
             <label for="mdp">Mot de passe</label>
-            <input type="password" class="form-control" id="mdp" placeholder="Mot de passe" name="mdp" required>
+                <input type="password" class="form-control" id="mdp" pattern="[0-9]*" placeholder="Mot de passe" name="mdp" required>
             <br>
-          <button type="submit" class="btn btn-dark" name="action" >Connexion</button>
+                <button type="submit" class="btn btn-dark" name="action" value="Connexion">Connexion</button>
+          <br>
+          <a style="color:red">${erreur}</a>
         </form>
     </body>
 </html>

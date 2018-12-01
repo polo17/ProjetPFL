@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controle;
 
 import Modele.DAO;
@@ -10,6 +5,7 @@ import Modele.DataSourceFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author pedago
+ * @author Ludovic
  */
 @WebServlet(name = "Controle", urlPatterns = {"/Controle"})
 public class Controle extends HttpServlet {
@@ -38,13 +34,18 @@ public class Controle extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        
+        System.out.println("action");
 
         if (actionIs(request, "Connexion")) {
             newConnection(request, response);
         }
         else if (actionIs(request, "Déconnexion")) {
             showView("Connexion.jsp", request, response);
-            //endGame(request, response);
+        }
+        else if (actionIs(request, "Modif_cli")) {
+            System.out.println("modif");
+            Modif_cli(request, response);
         }
         else {
             showView("Connexion.jsp", request, response);
@@ -60,16 +61,17 @@ public class Controle extends HttpServlet {
             HttpSession session = request.getSession();
             
             String user = request.getParameter("email");
-            session.setAttribute("email", user);
-            
             int mdp = Integer.parseInt(request.getParameter("mdp"));
             
-            System.out.println("dsqd"+user + mdp);
+            session.setAttribute("custom_id", mdp);
+            
+            System.out.println("login "+user +" mot de passe  "+mdp);
+            
+            //jumboeagle@example.com
+            //1
             
             
-            
-            
-            if ( mdp == 0000 && user.equals("admin") ) pageAdmin(request, response);
+            if ( mdp == 1234 && user.equals("admin") ) pageAdmin(request, response);
    
             else if (mdps.contains(mdp) && logins.contains(user) &&
                     mdps.indexOf(mdp) == logins.indexOf(user)){
@@ -86,8 +88,53 @@ public class Controle extends HttpServlet {
 	}
     
     
-    	private void pageClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	private void pageClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
             HttpSession session = request.getSession();
+            int id = (int) session.getAttribute("custom_id");
+            
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
+            List<String> descriptions = dao.getProductDescription(id);
+            List<Integer> quantites = dao.getQuantity(id);            
+            List<Integer> prix = dao.getPurchaseCost(id);
+            List<String> dates = dao.getDates(id);
+            List<String> companies = dao.getCompanies(id);
+            
+            List<Integer> totaux = new LinkedList<>();
+            for (int i = 0 ; i < quantites.size() ; i++){
+                totaux.add(quantites.get(i)*prix.get(i));
+            }
+            
+            request.setAttribute("descriptions",descriptions);
+            request.setAttribute("quantites",quantites);
+            request.setAttribute("prix",prix);
+            request.setAttribute("totaux",totaux);
+            request.setAttribute("dates",dates);
+            request.setAttribute("companies",companies);
+            
+            showView("Client.jsp", request, response);
+	}
+        
+        private void Modif_cli(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            HttpSession session = request.getSession();
+            
+            System.out.println("modif");
+            
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
+            String customer = (String) session.getAttribute("custom_id");
+            
+            String nom = request.getParameter("nom");
+            String adresse = request.getParameter("adresse");
+            String complément = request.getParameter("compadresse");
+            String ville = request.getParameter("ville");
+            String cp = request.getParameter("cp");
+            String etat = request.getParameter("etat");
+            String telephone = request.getParameter("télephone");
+            String fax = request.getParameter("fax");
+            String email = request.getParameter("email");
+            
+            //dao.modifCli(...,custom_id)
             
             showView("Client.jsp", request, response);
 	}

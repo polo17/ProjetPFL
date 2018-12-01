@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -56,6 +58,99 @@ public class DAO {
 		while (rs.next()) {
                     int customer_id = rs.getInt("CUSTOMER_ID");
                     result.add(customer_id);
+		}
+	}
+        
+	return result;
+    }
+    public List<String> getProductDescription(int customer_id) throws SQLException {
+        
+        List<String> result = new LinkedList<>();
+        String sql ="SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+                    String nom = rs.getString("DESCRIPTION");
+                    result.add(nom);
+		}
+	}
+        
+	return result;
+    }
+    
+    public List<Integer> getPurchaseCost(int customer_id) throws SQLException {
+        
+        List<Integer> result = new LinkedList<>();
+        String sql ="SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+                    int price = rs.getInt("Purchase_Cost");
+                    result.add(price);
+		}
+	}
+        
+	return result;
+    }
+    
+    public List<String> getDates(int customer_id) throws SQLException {
+        
+        List<String> result = new LinkedList<>();
+        String sql ="SELECT SALES_DATE FROM purchase_order WHERE customer_id = ?";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = (Date) rs.getObject("SALES_DATE");
+                    String dateS = sdf.format(date);
+                    
+                    result.add(dateS);
+		}
+	}
+        
+	return result;
+    }
+    
+    public List<String> getCompanies(int customer_id) throws SQLException {
+        
+        List<String> result = new LinkedList<>();
+        String sql ="SELECT FREIGHT_COMPANY FROM purchase_order WHERE customer_id = ?";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+                   String comp = rs.getString("FREIGHT_COMPANY");
+                   result.add(comp);
+		}
+	}
+        
+	return result;
+    }
+    
+    public List<Integer> getQuantity(int customer_id) throws SQLException {
+        
+        List<Integer> result = new LinkedList<>();
+        String sql ="SELECT QUANTITY FROM PURCHASE_ORDER WHERE customer_id = ?";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+                    int quantity = rs.getInt("QUANTITY");
+                    result.add(quantity);
 		}
 	}
         
