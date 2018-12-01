@@ -1,7 +1,7 @@
 <%-- 
     Document   : Connexion
     Created on : 21 nov. 2018, 14:27:54
-    Author     : pedago
+    Author     : Polina
 --%>
 
 
@@ -14,19 +14,20 @@
         <link rel="stylesheet" type="text/css" href="StyleConnexion.css">
         <title>Page de connexion</title>
     </head>
-    <body>
-        <h1>Veuillez vous connecter</h1>
+    <body class="text-center">
         <br>
-    <form>
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter votre email" name="email">
-      </div>
-      <div class="form-group">
-        <label for="mdp">Password</label>
-        <input type="password" class="form-control" id="mdp" placeholder="Mot de passe" name="mdp">
-      <button type="submit" class="btn btn-dark" name="action" >Connexion</button>
-    </form>
+        <form class="form-signin">
+          <h1>Veuillez vous connecter</h1>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Entrez votre email" name="email" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="mdp">Mot de passe</label>
+            <input type="password" class="form-control" id="mdp" placeholder="Mot de passe" name="mdp" required>
+            <br>
+          <button type="submit" class="btn btn-dark" name="action" >Connexion</button>
+        </form>
     </body>
 </html>
 

@@ -1,22 +1,40 @@
 body {
-    background: #112F3B; } 
+    background: #FAE3D6; } 
 h1{
     text-align:center;
-    color : #FAE3D6;
+    color : #2B7379;
 }
 .btn-dark {
     background: #2B7379;
-    color: #112F3B;   
+    color: #112F3B;    
 }
 .btn-dark:hover {
     background: #E3CCBD;
 }
-   
+ 
+.form-signin {
+    border: 10px black;
+    border-radius: 60px;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    background: #E3CCBD;
+}
+
+.form-group {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
 
 /*
-bleu foncé: 112F3B
-bleu moyen: 2B7379
-bleu clair: 6BBAB5
-beige clair: FAE3D6
-beige foncé: E3CCBD
+bleu foncé: #112F3B
+bleu moyen: #2B7379
+bleu clair: #6BBAB5
+beige clair: #FAE3D6
+beige foncé: #E3CCBD
 */

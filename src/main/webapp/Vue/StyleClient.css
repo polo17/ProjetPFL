@@ -1,0 +1,14 @@
+body {
+    background: #FAE3D6; } 
+
+.modal {
+    display: none;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1;
+} 
+
+label {
+    display: block;
+    width: 150px;
+    float: left;
+}
