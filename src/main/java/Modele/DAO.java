@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -63,6 +64,8 @@ public class DAO {
         
 	return result;
     }
+    
+    // getProductDescription permet d'obtenir la liste des descriptions des produits du client
     public List<String> getProductDescription(int customer_id) throws SQLException {
         
         List<String> result = new LinkedList<>();
@@ -80,10 +83,10 @@ public class DAO {
         
 	return result;
     }
-    
-    public List<Integer> getPurchaseCost(int customer_id) throws SQLException {
+    //getPurchaseCost permet d'obtenir les prix d'achat des produits achetés par le client
+    public List<Double> getPurchaseCost(int customer_id) throws SQLException {
         
-        List<Integer> result = new LinkedList<>();
+        List<Double> result = new LinkedList<>();
         String sql ="SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
         
         try (Connection connection = myDataSource.getConnection(); 
@@ -91,7 +94,7 @@ public class DAO {
                 stmt.setInt(1, customer_id);
                 ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
-                    int price = rs.getInt("Purchase_Cost");
+                    double price = rs.getInt("Purchase_Cost");
                     result.add(price);
 		}
 	}
@@ -99,6 +102,7 @@ public class DAO {
 	return result;
     }
     
+    // getDates permet d'obtenir les dates de vente des produits achetés par le client
     public List<String> getDates(int customer_id) throws SQLException {
         
         List<String> result = new LinkedList<>();
@@ -121,6 +125,7 @@ public class DAO {
 	return result;
     }
     
+    // getCompanies permet d'obtenir les noms des entreprises dont les produits ont été achetés par le client
     public List<String> getCompanies(int customer_id) throws SQLException {
         
         List<String> result = new LinkedList<>();
@@ -139,6 +144,7 @@ public class DAO {
 	return result;
     }
     
+    // getQuantity permet d'obtenir le nombre de produits achetés par le client
     public List<Integer> getQuantity(int customer_id) throws SQLException {
         
         List<Integer> result = new LinkedList<>();
@@ -158,18 +164,46 @@ public class DAO {
     }
     
     // addBonCommande permet d'ajouter un bon de commande à un client
-    public int addBonCommande(int quantity) throws SQLException {
+    public int addBonCommande(int customer_id,int quantity) throws SQLException { // A MODIFIER
         
         int result = 0;
-	String sql = "INSERT INTO PURCHASE_ORDER ?";
+	String sql = "INSERT INTO PURCHASE_ORDER (ORDER_NUM,CUSTOMER_ID,PRODUCT_ID,QUANTITY,SHIPPING_COST,SALES_DATE,SHIPPING_DATE,FREIGHT_COMPANY) VALUES (?,?,?,?,?,?,?,?) WHERE CUSTOMER_ID = ? AND QUANTITY = ?";
         
 	try (Connection connection = myDataSource.getConnection(); 
             PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, quantity);
+                stmt.setInt(1, customer_id);
+                stmt.setInt(2, quantity);
+                
+                ResultSet rs = stmt.executeQuery();
+                int order_num = rs.getInt("ORDER_NUM");
+                String add1 = rs.getString("ADDRESSLINE1");
+                String add2 = rs.getString("ADDRESSLINE2");
+                String city = rs.getString("CITY");
+                String zip = rs.getString("ZIP");
+                String state = rs.getString("STATE");
+                String phone = rs.getString("PHONE");
+                String fax = rs.getString("FAX");
+                
 		result = stmt.executeUpdate();
             }
         
 	return result;
+    }
+    
+    public int getMaxOrderNum() throws SQLException {
+        int result = 0;
+        String sql = "SELECT MAX(ORDER_NUM) AS NUMBER FROM PURCHASE_ORDER";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+
+		if (rs.next()) { 
+                    result = rs.getInt("NUMBER");
+		}
+            }
+        
+        return result;
     }
     
     // modifyBonCommande permet de mofidier un bon de commande d'un client
@@ -202,4 +236,31 @@ public class DAO {
                 
 	return result;
 	}
+    
+    // modifyClient permet de modifier un client
+    public int modifyClient(int customer_id) throws SQLException {
+        
+        int result = 0;
+        String sql = "UPDATE CUSTOMER SET NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, ZIP, STATE, PHONE, FAX, EMAIL = VALUES(?,?,?,?,?,?,?,?,?) WHERE CUSTOMER_ID = ?";
+        
+        try(Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, customer_id);
+                
+                ResultSet rs = stmt.executeQuery();
+                String nom = rs.getString("NAME");
+                String add1 = rs.getString("ADDRESSLINE1");
+                String add2 = rs.getString("ADDRESSLINE2");
+                String city = rs.getString("CITY");
+                String zip = rs.getString("ZIP");
+                String state = rs.getString("STATE");
+                String phone = rs.getString("PHONE");
+                String fax = rs.getString("FAX");
+                String email = rs.getString("EMAIL");
+                
+		result = stmt.executeUpdate();
+            }
+        return result;
+    }
+    
 }
