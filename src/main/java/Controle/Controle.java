@@ -94,23 +94,31 @@ public class Controle extends HttpServlet {
             
             DAO dao = new DAO(DataSourceFactory.getDataSource());
             
+            List<Produit> produits = new LinkedList<>();
+            
             List<String> descriptions = dao.getProductDescription(id);
             List<Integer> quantites = dao.getQuantity(id);            
             List<Integer> prix = dao.getPurchaseCost(id);
             List<String> dates = dao.getDates(id);
             List<String> companies = dao.getCompanies(id);
-            
+
             List<Integer> totaux = new LinkedList<>();
             for (int i = 0 ; i < quantites.size() ; i++){
                 totaux.add(quantites.get(i)*prix.get(i));
             }
             
-            request.setAttribute("descriptions",descriptions);
+            for (int i = 0 ; i < descriptions.size() ; i++){
+                Produit p = new Produit(descriptions.get(i),quantites.get(i),prix.get(i),dates.get(i),companies.get(i),totaux.get(i));
+                produits.add(p);
+            }
+            
+            request.setAttribute("produits",produits);
+            /*request.setAttribute("descriptions",descriptions);
             request.setAttribute("quantites",quantites);
             request.setAttribute("prix",prix);
             request.setAttribute("totaux",totaux);
             request.setAttribute("dates",dates);
-            request.setAttribute("companies",companies);
+            request.setAttribute("companies",companies);*/
             
             showView("Client.jsp", request, response);
 	}
