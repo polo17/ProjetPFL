@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="StyleClient.css">
+        <link rel="stylesheet" type="text/css" href="Vue/StyleClient.css">
         
         <title>Page Client</title>
     </head>
@@ -98,13 +98,15 @@
                     <th colspan="2">Action</th>
                 </tr>
             </thead>
+            <c:forEach var="prod" items="produits">
             <tr>
-                <td>${descriptions}</td>
-                <td>${quantites}</td>
-                <td>${prix}</td>
-                <td>${totaux}</td>
-                <td>${dates}</td>
-                <td>${companies}</td>
+                <td>${prod.description}</td>
+                <td>${prod.quantite}</td>
+                <td>${prid.prix}</td>
+                <td>${prod.total}</td>
+                <td>${prod.date}</td>
+                <td>${prod.companie}</td>
+            </c:forEach>
                 <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc">modifier</button>
                 <td><a href="?action=DELETE">supprimer</a></td>
             </tr>
