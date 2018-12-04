@@ -98,15 +98,15 @@
                     <th colspan="2">Action</th>
                 </tr>
             </thead>
-            <c:forEach var="prod" items="produits">
-            <tr>
-                <td>${prod.description}</td>
-                <td>${prod.quantite}</td>
-                <td>${prid.prix}</td>
-                <td>${prod.total}</td>
-                <td>${prod.date}</td>
-                <td>${prod.companie}</td>
-            </c:forEach>
+                <c:forEach var="prod" items="${produits}">
+                <tr>
+                    <td>${prod.getPrix()}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </c:forEach>
                 <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc">modifier</button>
                 <td><a href="?action=DELETE">supprimer</a></td>
             </tr>
