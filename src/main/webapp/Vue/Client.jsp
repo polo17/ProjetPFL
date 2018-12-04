@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +19,7 @@
         <h1>Mon espace Client</h1>
         <br>
 
-        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifClient" id="btnModif">
+        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modifClient" id="btnModif">
             Modifier mes données
         </button>
         <br><br>
@@ -58,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close2">Fermer</button>
-                      <button type="button" class="btn btn-dark" name="action" value="Modif_cli">Sauvegarder</button>
+                      <button type="button" class="btn btn-dark" name="action" value="Modif_cli" >Sauvegarder</button>
                     </div>
                   </form>
               </div>
@@ -100,18 +101,20 @@
             </thead>
                 <c:forEach var="prod" items="${produits}">
                 <tr>
-                    <td>${prod.getPrix()}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>${prod.description}</td>
+                    <td>${prod.quantite}</td>
+                    <td>${prod.prix}</td>
+                    <td>${prod.total}</td>
+                    <td>${prod.date}</td>
+                    <td>${prod.companie}</td>
+                    <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc" >modifier</button>
+                    <td><a href="?action=DELETE">supprimer</a></td>
                 </c:forEach>
-                <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc">modifier</button>
-                <td><a href="?action=DELETE">supprimer</a></td>
             </tr>
         </table>
         <br>
+        
+        <button type="button" class="btn btn-light" id="btnAjout">Passer une commande</button>
         
         <div id="modifCom" class="modal" tabindex="-1" role="dialog"  >
             <div class="modal-dialog" role="document">
@@ -122,8 +125,9 @@
                     <span aria-hidden="true" id="close3">&times; </span>
                   </button>
                 </div>
+                  <form method="POST">
                 <div class="modal-body">
-                  <form>
+                  
                       <div class="form-group">
                             <label>Nom produit : </label><input type="text" name="nompro" value="nom" readonly></div>
                       <div class="form-group">
@@ -135,13 +139,13 @@
                       <div class="form-group">
                             <label>Date d'achat : </label><input type="text" name="dateachat" value="12/04/15" readonly></div>  
                       <div class="form-group">
-                            <label>Nom compagnie : </label><input type="text" name="nomcomp" value="comp" readonly></div>  
-                  </form>
-                </div>
+                            <label>Nom compagnie : </label><input type="text" name="nomcomp" value="comp" readonly></div>   
+                </div>         
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close4">Fermer</button>
-                  <button type="button" class="btn btn-dark">Sauvegarder</button>
+                  <button type="button" class="btn btn-dark" value="SauvegarderProduit" name="action">Sauvegarder</button>
                 </div>
+                      </form>
               </div>
             </div>
         </div>        
@@ -165,7 +169,7 @@
         </script>
         <br><br>
         <form method="POST">
-            <input class="btn btn-dark" name="action" value="Déconnexion" type="SUBMIT">
+            <input class="btn btn-light" name="action" value="Déconnexion" type="SUBMIT">
         </form>
     </body>
 </html>

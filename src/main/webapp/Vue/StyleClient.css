@@ -1,5 +1,12 @@
 body {
-    background: #FAE3D6; } 
+    background: #3a312d; } 
+
+h1{
+    text-align:center;
+    color : #eadbb2;
+    font-family:"onyx";
+    font-size:500%;
+}
 
 .modal {
     display: none;
@@ -11,4 +18,8 @@ label {
     display: block;
     width: 150px;
     float: left;
+}
+
+table {
+    color:#eadbb2;
 }
