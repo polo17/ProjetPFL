@@ -34,8 +34,6 @@ public class Controle extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        
-        System.out.println("action");
 
         if (actionIs(request, "Connexion")) {
             newConnection(request, response);
