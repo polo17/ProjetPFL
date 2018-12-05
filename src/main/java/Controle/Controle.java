@@ -5,6 +5,9 @@ import Modele.DataSourceFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,9 +44,12 @@ public class Controle extends HttpServlet {
         else if (actionIs(request, "Déconnexion")) {
             showView("Connexion.jsp", request, response);
         }
+        else if (actionIs(request, "Ajouter")){
+            ajoutCommande(request, response);
+        }
         else if (actionIs(request, "Modif_cli")) {
             System.out.println("modif");
-            Modif_cli(request, response);
+            modifClient(request, response);
         }
         else {
             showView("Connexion.jsp", request, response);
@@ -110,18 +116,15 @@ public class Controle extends HttpServlet {
                 produits.add(p);
             }
             
+            List<String> choixProd = dao.getDescriptions();
+            request.setAttribute("choixProd", choixProd);
+            
             request.setAttribute("produits",produits);
-            /*request.setAttribute("descriptions",descriptions);
-            request.setAttribute("quantites",quantites);
-            request.setAttribute("prix",prix);
-            request.setAttribute("totaux",totaux);
-            request.setAttribute("dates",dates);
-            request.setAttribute("companies",companies);*/
             
             showView("Client.jsp", request, response);
 	}
         
-        private void Modif_cli(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession();
             
             System.out.println("modif");
@@ -141,6 +144,44 @@ public class Controle extends HttpServlet {
             String email = request.getParameter("email");
             
             //dao.modifCli(...,custom_id)
+            
+            showView("Client.jsp", request, response);
+	}
+        
+        private void ajoutCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+            HttpSession session = request.getSession();
+            
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
+            //Description
+            String nom = request.getParameter("nom");
+           //quantite
+            int quantite = Integer.parseInt(request.getParameter("quantite"));
+            
+            //order_num int
+            int order_num = dao.getMaxOrderNum() +1 ;
+            //cistomer id int
+            int customer_id = (Integer) session.getAttribute("custom_id");
+            
+            //product id int
+            int product_id = dao.getProductId(nom);
+            
+            //prix double
+            double prix = dao.getPurchaseCost(nom);
+            
+            //date string
+            Date actuelle = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            
+            String dat = dateFormat.format(actuelle);
+            
+            
+            //companie string
+            String companie = "Poney Express";
+            
+            
+            
+            dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
             
             showView("Client.jsp", request, response);
 	}
