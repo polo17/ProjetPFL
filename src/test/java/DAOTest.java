@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -86,6 +87,13 @@ public class DAOTest {
         assertEquals(1095,00,l.get(0));
     }
     
+    // testGetDescriptions() teste la méthode getDescriptions()
+    @Test @Ignore
+    public void testGetDescriptions() throws SQLException {
+        List<String> l = myDAO.getDescriptions();
+        assertEquals(20,l.size());
+    }
+    
     // testGetDates() teste la méthode getDates()
     @Test
     public void testGetDates() throws SQLException {
@@ -111,11 +119,19 @@ public class DAOTest {
     }
     
     // testaddBonCommande() teste la méthode addBonCommande()
-    @Test
+    @Test @Ignore
     public void testaddBonCommande() throws SQLException {
-        int r = myDAO.addBonCommande(10,1,980001,10,10.0,"2010-10-10","2010-10-10","10"); 
-        assertEquals(2,r);
-        //assertEquals(25,(long)l.get(1));
+        int r = myDAO.addBonCommande(10,1,980001,10,10.0,"2010-10-10","2010-10-10","10");
+        List<Integer> l = myDAO.getQuantity(2);
+        assertEquals(3,l.size());
+    }
+    
+    // testDeleteBonCommande() teste la méthode deleteBonCommande()
+    @Test 
+    public void testDeleteBonCommande() throws SQLException {
+        int r = myDAO.deleteBonCommande(10);
+        List<Integer> l = myDAO.getQuantity(2);
+        //assertEquals(3,l.size());
     }
     
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
@@ -125,5 +141,17 @@ public class DAOTest {
         assertEquals(30298004,r);
     }
     
+    // testGetProductId() teste la méthode getProductId()
+    @Test
+    public void testGetProductId() throws SQLException {
+        int r = myDAO.getProductId("Identity Server");
+        assertEquals(980001,r);
+    }
     
+    // testGetPurchaseCostWithDescription() teste la méthode getPurchaseCost()
+    @Test
+    public void testGetPurchaseCostWithDescription() throws SQLException {
+        double r = myDAO.getPurchaseCost("Identity Server");
+        assertEquals(1095,00,r);
+    }
 }

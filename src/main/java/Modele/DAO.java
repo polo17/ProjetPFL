@@ -102,6 +102,24 @@ public class DAO {
 	return result;
     }
     
+    //getDescriptions permet d'obtenir la liste des descriptions des produits
+    public List<String> getDescriptions() throws SQLException {
+        
+        List<String> result = new LinkedList<>();
+        String sql ="SELECT DESCRIPTION FROM PRODUCT";
+        
+        try (Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+                ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+                    String description = rs.getString("DESCRIPTION");
+                    result.add(description);
+		}
+	}
+        
+	return result;
+    }
+    
     // getDates permet d'obtenir les dates de vente des produits achetés par le client
     public List<String> getDates(int customer_id) throws SQLException {
         
@@ -259,4 +277,43 @@ public class DAO {
         return result;
     }
     
+    // getProductId permet de récupérer le product_id de la description du produit donnée
+    public int getProductId(String description) throws SQLException {
+        
+        int result = 0;
+        String sql = "SELECT PRODUCT_ID AS ID FROM APP.PRODUCT WHERE DESCRIPTION = ?";
+        
+        try(Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
+            stmt.setString(1,description);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result=rs.getInt("ID");
+            }
+        }
+        
+        return result;
+    }
+    
+    // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
+    public double getPurchaseCost(String description) throws SQLException {
+        
+        double result = 0.;
+        String sql = "SELECT PURCHASE_COST AS COST FROM APP.PRODUCT WHERE DESCRIPTION = ?";
+        
+        try(Connection connection = myDataSource.getConnection(); 
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
+            stmt.setString(1,description);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result= rs.getDouble("COST");
+            }
+        }
+        
+        return result;
+    }
 }
