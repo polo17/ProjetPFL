@@ -13,12 +13,12 @@ public class Produit {
 
     private String description;
     private int quantite;
-    private int prix;
+    private double prix;
     private String date;
     private String companie;
-    private int total;
+    private double total;
     
-    public Produit (String des, int q, int p, String dat, String c, int t){
+    public Produit (String des, int q, double p, String dat, String c, double t){
         this.description = des;
         this.quantite = q;
         this.prix = p;
@@ -43,7 +43,7 @@ public class Produit {
         this.quantite = quantite;
     }
 
-    public int getPrix() {
+    public double getPrix() {
         return prix;
     }
 
@@ -67,7 +67,7 @@ public class Produit {
         this.companie = companie;
     }
 
-    public int getTotal() {
+    public double getTotal() {
         return total;
     }
 

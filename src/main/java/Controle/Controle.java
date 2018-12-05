@@ -96,11 +96,11 @@ public class Controle extends HttpServlet {
             
             List<String> descriptions = dao.getProductDescription(id);
             List<Integer> quantites = dao.getQuantity(id);            
-            List<Integer> prix = dao.getPurchaseCost(id);
+            List<Double> prix = dao.getPurchaseCost(id);
             List<String> dates = dao.getDates(id);
             List<String> companies = dao.getCompanies(id);
 
-            List<Integer> totaux = new LinkedList<>();
+            List<Double> totaux = new LinkedList<>();
             for (int i = 0 ; i < quantites.size() ; i++){
                 totaux.add(quantites.get(i)*prix.get(i));
             }
