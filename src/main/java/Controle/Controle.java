@@ -155,6 +155,7 @@ public class Controle extends HttpServlet {
             
             //Description
             String nom = request.getParameter("nom");
+            System.out.println(nom);
            //quantite
             int quantite = Integer.parseInt(request.getParameter("quantite"));
             

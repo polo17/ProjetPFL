@@ -132,18 +132,20 @@
                           <div class="input-group-prepend">
                             <label class="input-group-text" for="inputProd">Produit</label>
                           </div>
+                            
                           <select class="custom-select" id="choixProd" required>
-                            <option selected>Choisir...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                              <option selected>Choisir...</option>
+                              <c:forEach var="ch" items="${choixProd}">
+                            
+                            <option name="nom" value="${ch}">${ch}</option>
+                            </c:forEach>
                           </select>
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="choixQuant">Quantité</span>
                           </div>
-                          <input type="text" class="form-control" placeholder="Veuillez entrer un quantité" aria-describedby="basic-addon1" pattern="[0-9]*" required>
+                          <input type="text" class="form-control" name="quantite" placeholder="Veuillez entrer un quantité" aria-describedby="basic-addon1" pattern="[0-9]*" required>
                         </div>
                     </div>         
                     <div class="modal-footer">
