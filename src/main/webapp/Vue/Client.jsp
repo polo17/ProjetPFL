@@ -114,7 +114,65 @@
         </table>
         <br>
         
-        <button type="button" class="btn btn-light" id="btnAjout">Passer une commande</button>
+        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#ajoutCom" id="btnAjout">Passer une commande</button>
+        
+         <div id="ajoutCom" class="modal" tabindex="-1" role="dialog"  >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Passer commande</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" id="close5">&times; </span>
+                  </button>
+                </div>
+                <form method="POST">
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputProd">Produit</label>
+                          </div>
+                          <select class="custom-select" id="choixProd" required>
+                            <option selected>Choisir...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="choixQuant">Quantité</span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="Veuillez entrer un quantité" aria-describedby="basic-addon1" pattern="[0-9]*" required>
+                        </div>
+                    </div>         
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close6">Fermer</button>
+                      <input class="btn btn-dark" name="action" value="Ajouter" type="SUBMIT">
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>       
+        
+        <script>
+            var modala = document.getElementById('ajoutCom');
+            var btna = document.getElementById("btnAjout");
+            var fermer5 = document.getElementById("close5");
+            var fermer6 = document.getElementById("close6");
+        //ouverture quand on clique sur le bouton
+            btna.onclick = function() {
+                modala.style.display = "block";
+            }
+        //fermeture quand on clique sur la croix   
+            fermer5.onclick = function() {
+                modala.style.display = "none";
+            }
+        //fermeture quand on clique sur fermer   
+            fermer6.onclick = function() {
+                modala.style.display = "none";
+            }
+        </script>        
         
         <div id="modifCom" class="modal" tabindex="-1" role="dialog"  >
             <div class="modal-dialog" role="document">
