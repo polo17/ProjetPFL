@@ -110,13 +110,13 @@ public class DAOTest {
         assertEquals(25,(long)l.get(1));
     }
     
-    /* // testaddBonCommande() teste la méthode addBonCommande()
+    // testaddBonCommande() teste la méthode addBonCommande()
     @Test
     public void testaddBonCommande() throws SQLException {
-        int r = myDAO.addBonCommande(1); 
-        assertEquals(2,l.size());
-        assertEquals(25,(long)l.get(1));
-    }*/
+        int r = myDAO.addBonCommande(10,1,980001,10,10.0,"2010-10-10","2010-10-10","10"); 
+        assertEquals(2,r);
+        //assertEquals(25,(long)l.get(1));
+    }
     
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
     @Test
