@@ -133,7 +133,7 @@
                             <label class="input-group-text" for="inputProd">Produit</label>
                           </div>
                             
-                          <select class="custom-select" id="choixProd" required>
+                          <select class="custom-select" id="choixProd" name="nom" required>
                               <option selected>Choisir...</option>
                               <c:forEach var="ch" items="${choixProd}">
                             

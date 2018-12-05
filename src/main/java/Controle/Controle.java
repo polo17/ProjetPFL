@@ -124,7 +124,7 @@ public class Controle extends HttpServlet {
             showView("Client.jsp", request, response);
 	}
         
-        private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
             HttpSession session = request.getSession();
             
             System.out.println("modif");
@@ -145,7 +145,7 @@ public class Controle extends HttpServlet {
             
             //dao.modifCli(...,custom_id)
             
-            showView("Client.jsp", request, response);
+            pageClient(request, response);
 	}
         
         private void ajoutCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -184,7 +184,7 @@ public class Controle extends HttpServlet {
             
             dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
             
-            showView("Client.jsp", request, response);
+            pageClient(request, response);
 	}
         
         private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

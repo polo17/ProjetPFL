@@ -72,7 +72,7 @@ public class DAOTest {
     }
     
     // testGetProductDescription() teste la méthode getProductDescription()
-    @Test
+    @Test @Ignore
     public void testGetProductDescription() throws SQLException {
         List<String> l = myDAO.getProductDescription(1); //pour le customer_id 1
         assertEquals(2,l.size());
@@ -80,7 +80,7 @@ public class DAOTest {
     }
     
     // testGetPurchaseCost() teste la méthode getPurchaseCost()
-    @Test
+    @Test @Ignore
     public void testGetPurchaseCost() throws SQLException {
         List<Double> l = myDAO.getPurchaseCost(1); //pour le customer_id 1
         assertEquals(2,l.size());
@@ -95,7 +95,7 @@ public class DAOTest {
     }
     
     // testGetDates() teste la méthode getDates()
-    @Test
+    @Test @Ignore
     public void testGetDates() throws SQLException {
         List<String> l = myDAO.getDates(1); //pour le customer_id 1
         assertEquals(2,l.size());
@@ -135,7 +135,7 @@ public class DAOTest {
     }
     
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
-    @Test
+    @Test @Ignore
     public void testGetMaxOrderNum() throws SQLException {
         int r = myDAO.getMaxOrderNum();
         assertEquals(30298004,r);
