@@ -164,25 +164,21 @@ public class DAO {
     }
     
     // addBonCommande permet d'ajouter un bon de commande à un client
-    public int addBonCommande(int customer_id,int quantity) throws SQLException { // A MODIFIER
+    public int addBonCommande(int order_num,int customer_id,int product_id,int quantity,double shipping_cost,String sales_date,String shipping_date,String company) throws SQLException {
         
         int result = 0;
-	String sql = "INSERT INTO PURCHASE_ORDER (ORDER_NUM,CUSTOMER_ID,PRODUCT_ID,QUANTITY,SHIPPING_COST,SALES_DATE,SHIPPING_DATE,FREIGHT_COMPANY) VALUES (?,?,?,?,?,?,?,?) WHERE CUSTOMER_ID = ? AND QUANTITY = ?";
+	String sql = "INSERT INTO PURCHASE_ORDER VALUES (?,?,?,?,?,?,?,?)";
         
 	try (Connection connection = myDataSource.getConnection(); 
             PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, customer_id);
-                stmt.setInt(2, quantity);
-                
-                ResultSet rs = stmt.executeQuery();
-                int order_num = rs.getInt("ORDER_NUM");
-                String add1 = rs.getString("ADDRESSLINE1");
-                String add2 = rs.getString("ADDRESSLINE2");
-                String city = rs.getString("CITY");
-                String zip = rs.getString("ZIP");
-                String state = rs.getString("STATE");
-                String phone = rs.getString("PHONE");
-                String fax = rs.getString("FAX");
+                stmt.setInt(1, order_num);
+                stmt.setInt(2, customer_id);
+                stmt.setInt(3, product_id);
+                stmt.setInt(4, quantity);
+                stmt.setDouble(5, shipping_cost);
+                stmt.setString(6, sales_date);
+                stmt.setString(7, shipping_date);
+                stmt.setString(8, company);
                 
 		result = stmt.executeUpdate();
             }
