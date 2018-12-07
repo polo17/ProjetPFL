@@ -181,6 +181,98 @@ public class DAO {
 
         return result;
     }
+    
+    public int getQuantity_p(int order) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT QUANTITY FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("QUANTITY");
+            }
+          
+        }
+
+        return result;
+    }
+    
+    public String getCompanies_p(int order) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT FREIGHT_COMPANY FROM purchase_order WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("FREIGHT_COMPANY");
+            }
+        }
+
+        return result;
+    }
+    
+    public double getPurchaseCost_p(int order) throws SQLException {
+
+        double result = 0;
+        String sql = "SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("Purchase_Cost");
+            }
+            
+        }
+        return result;
+    }
+    
+    public String getDates_p(int order) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT SALES_DATE FROM purchase_order WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = (Date) rs.getObject("SALES_DATE");
+                result = sdf.format(date);
+            }
+
+
+        }
+
+        return result;
+    }
+    
+    public String getDescrption_p(int order) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("DESCRIPTION");
+            }  
+        }
+
+        return result;
+    }
 
     // addBonCommande permet d'ajouter un bon de commande à un client
     public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, String sales_date, String shipping_date, String company) throws SQLException {
@@ -244,7 +336,7 @@ public class DAO {
     public int modifyBonCommande(int num, int quantity) throws SQLException {
 
         int result = 0;
-        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ? WHERE ORDRE_NUM = ?";
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ? WHERE ORDER_NUM = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -255,7 +347,7 @@ public class DAO {
 
         return result;
     }
-
+    
     // deleteBonCommande permet de supprimer un bon de commande à un client
     public int deleteBonCommande(int num) throws SQLException {
 

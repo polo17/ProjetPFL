@@ -35,7 +35,7 @@
                         <div class="modal-body">
 
                             <div class="form-group">
-                                <label>Nom : </label><input type="text" name="nom" value="${nom}" readonly></div>
+                                <label>Nom : </label><input type="text" name="nom" value="${nom}"></div>
                             <div class="form-group">
                                 <label>Adresse : </label><input type="text" name="adresse" value="${adresse}"></div>  
                             <div class="form-group">
@@ -104,15 +104,20 @@
                     <td>${prod.total}</td>
                     <td>${prod.date}</td>
                     <td>${prod.companie}</td>
-                    <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc" >modifier</button></td> 
+                    <td>
+                        <form method = "POST">
+                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="btnModifc">modifier</button>
+                            <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
+                        </form>
                     <td>
                         <form method = "POST">
                             <button type="SUBMIT" class="btn btn-dark" name="action" value="SupprimCommande" >supprimer</button>
                             <input id="prodId" name="order" type="hidden" value="${prod.order}">
                         </form>
-                    </td>   
+                    </td> 
+                    </tr>
                 </c:forEach>
-            </tr>
+            
         </table>
         <br>
 
@@ -189,21 +194,23 @@
                         <div class="modal-body">
 
                             <div class="form-group">
-                                <label>Nom produit : </label><input type="text" name="nompro" value="nom" readonly></div>
+                                <label>Nom produit : </label><input type="text" name="nompro" value="${nom_p}" readonly></div>
                             <div class="form-group">
-                                <label>Quantité : </label><input type="text" name="quantite" value="5"></div>  
+                                <label>Quantité : </label><input type="text" name="quantite" value="${quant_p}"></div>  
                             <div class="form-group">
-                                <label>Prix unit. : </label><input type="text" name="prixunit" value="10" readonly></div>  
+                                <label>Prix unit. : </label><input type="text" name="prixunit" value="${prix_p}" readonly></div>  
                             <div class="form-group">
-                                <label>Total : </label><input type="text" name="total" value="50" readonly></div>  
+                                <label>Total : </label><input type="text" name="total" value="${total_p}" readonly></div>  
                             <div class="form-group">
-                                <label>Date d'achat : </label><input type="text" name="dateachat" value="12/04/15" readonly></div>  
+                                <label>Date d'achat : </label><input type="text" name="dateachat" value="${date_p}" readonly></div>  
                             <div class="form-group">
-                                <label>Nom compagnie : </label><input type="text" name="nomcomp" value="comp" readonly></div>   
+                                <label>Nom compagnie : </label><input type="text" name="nomcomp" value="${nomc_p}" readonly></div>
+                            <div class="form-group">
+                                <label>Numéro de commande : </label><input type="text" name="numcomm" value="${num_p}" readonly></div> 
                         </div>         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close4">Fermer</button>
-                            <button type="button" class="btn btn-dark" value="SauvegarderProduit" name="action">Sauvegarder</button>
+                            <button type="SUBMIT" class="btn btn-dark" name="action" value="ModifCommande">Sauvegarder</button>
                         </div>
                     </form>
                 </div>
