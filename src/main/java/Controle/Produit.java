@@ -17,14 +17,16 @@ public class Produit {
     private String date;
     private String companie;
     private double total;
+    private int order;
     
-    public Produit (String des, int q, double p, String dat, String c, double t){
+    public Produit (String des, int q, double p, String dat, String c, double t, int o){
         this.description = des;
         this.quantite = q;
         this.prix = p;
         this.date = dat;
         this.companie = c;
         this.total = t;
+        this.order = o;
     }
     
     public String getDescription() {
@@ -73,6 +75,10 @@ public class Produit {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+    
+    public int getOrder() {
+        return order;
     }
     
 }

@@ -47,8 +47,10 @@ public class Controle extends HttpServlet {
         else if (actionIs(request, "Ajouter")){
             ajoutCommande(request, response);
         }
+        else if(actionIs(request, "SupprimCommande")){
+            supprCommande(request, response);
+        }
         else if (actionIs(request, "Modif_cli")) {
-            System.out.println("modif");
             modifClient(request, response);
         }
         else {
@@ -105,6 +107,7 @@ public class Controle extends HttpServlet {
             List<Double> prix = dao.getPurchaseCost(id);
             List<String> dates = dao.getDates(id);
             List<String> companies = dao.getCompanies(id);
+            List<Integer> orders_num = dao.getOrderNum(id);
 
             List<Double> totaux = new LinkedList<>();
             for (int i = 0 ; i < quantites.size() ; i++){
@@ -112,38 +115,65 @@ public class Controle extends HttpServlet {
             }
             
             for (int i = 0 ; i < descriptions.size() ; i++){
-                Produit p = new Produit(descriptions.get(i),quantites.get(i),prix.get(i),dates.get(i),companies.get(i),totaux.get(i));
+                Produit p = new Produit(descriptions.get(i),quantites.get(i),prix.get(i),dates.get(i),companies.get(i),totaux.get(i), orders_num.get(i));
                 produits.add(p);
             }
             
             List<String> choixProd = dao.getDescriptions();
             request.setAttribute("choixProd", choixProd);
             
-            request.setAttribute("produits",produits);
+            request.setAttribute("produits",produits);      
+
+            String name = dao.getName(id);
+            request.setAttribute("nom", name);
+            
+            String address1 = dao.getAdress1(id);
+            request.setAttribute("adresse", address1);
+            
+            String adress2 = dao.getAdress2(id);
+            request.setAttribute("compadresse", adress2);
+            
+            String city = dao.getCity(id);
+            request.setAttribute("ville", city);
+            
+            String zip = dao.getZip(id);
+            request.setAttribute("cp", zip);
+            
+            String state = dao.getState(id);
+            request.setAttribute("etat", state);
+            
+            String phone = dao.getPhone(id);
+            request.setAttribute("telephone", phone);
+            
+            String fax = dao.getFax(id);
+            request.setAttribute("fax", fax);
+            
+            String email = dao.getEmail(id);
+            request.setAttribute("email", email);
+            
+            
             
             showView("Client.jsp", request, response);
-	}
+	}        
         
         private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
             HttpSession session = request.getSession();
             
-            System.out.println("modif");
-            
             DAO dao = new DAO(DataSourceFactory.getDataSource());
             
-            String customer = (String) session.getAttribute("custom_id");
+            int id = (Integer) session.getAttribute("custom_id");
             
             String nom = request.getParameter("nom");
             String adresse = request.getParameter("adresse");
-            String complément = request.getParameter("compadresse");
+            String complement = request.getParameter("compadresse");
             String ville = request.getParameter("ville");
             String cp = request.getParameter("cp");
             String etat = request.getParameter("etat");
-            String telephone = request.getParameter("télephone");
+            String telephone = request.getParameter("telephone");
             String fax = request.getParameter("fax");
             String email = request.getParameter("email");
             
-            //dao.modifCli(...,custom_id)
+            dao.modifyClient(nom,adresse,complement,ville,etat,cp,telephone,fax,email,id);
             
             pageClient(request, response);
 	}
@@ -183,6 +213,18 @@ public class Controle extends HttpServlet {
             
             
             dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
+            
+            pageClient(request, response);
+	}
+        
+        private void supprCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+            HttpSession session = request.getSession();
+            
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+            int order = Integer.parseInt(request.getParameter("order"));
+
+            dao.deleteBonCommande(order);
             
             pageClient(request, response);
 	}
