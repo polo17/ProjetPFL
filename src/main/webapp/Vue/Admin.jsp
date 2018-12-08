@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,9 +29,9 @@
       data.addColumn('string', 'Element');
       data.addColumn('number', 'Percentage');
       data.addRows([
-        ['Nitrogen', 0.78],
-        ['Oxygen', 0.21],
-        ['Other', 0.01]
+        <c:forEach var="ca" items="${chiffres}">
+            ['${ca.nom}', ${ca.total}],
+        </c:forEach>
       ]);
 
       // Instantiate and draw the chart.
@@ -38,7 +39,9 @@
       chart.draw(data, null);
     }
   </script>
-    
+    <input type="date" id="start" name="name"
+       value="selectDate"
+       min="${minDate}" max="${maxDate}">
         
         
         <form method="POST">

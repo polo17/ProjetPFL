@@ -154,7 +154,7 @@ public class Controle extends HttpServlet {
             String date_p = dao.getDates_p(order);
 
             double total_p = prix_p * quantity_p;
-            
+
             request.setAttribute("nom_p", description_p);
             request.setAttribute("quant_p", quantity_p);
             request.setAttribute("prix_p", prix_p);
@@ -254,12 +254,54 @@ public class Controle extends HttpServlet {
 //        String date = dao.getDates_p(order);
 //
 //        double total = prix * quantity;
-
         //pageClient(request, response);
     }
 
-    private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
+
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        String minDate = dao.getMinDate();
+        String maxDate = dao.getMaxDate();
+
+        request.setAttribute("minDate", minDate);
+        request.setAttribute("maxDate", maxDate);
+
+        double total_tout = 0;
+
+        List<Integer> customers_ids = dao.getCustomerIds();
+        List<ChiffreAffaire> chiffres = new LinkedList<>();
+
+        for (int c = 0; c < customers_ids.size(); c++) {
+            List<Double> prix = dao.getPurchaseCost(1);
+            List<Integer> quantites = dao.getQuantity(1);
+
+            double total = 0;
+            for (int i = 0; i < quantites.size(); i++) {
+                total = total + quantites.get(i) * prix.get(i);
+            }
+            total_tout = total_tout + total;
+        }
+
+        for (int c = 0; c < customers_ids.size(); c++) {
+            int id = customers_ids.get(c);
+            String nom = dao.getName(id);
+
+            List<Double> prix = dao.getPurchaseCost(id);
+            List<Integer> quantites = dao.getQuantity(id);
+
+            double total = 0;
+            for (int i = 0; i < quantites.size(); i++) {
+                total = total + quantites.get(i) * prix.get(i);
+            }
+            
+            ChiffreAffaire ca = new ChiffreAffaire(nom, ((total * 100)/total_tout)/100);
+            chiffres.add(ca);
+            
+        }
+
+        request.setAttribute("chiffres", chiffres);
 
         showView("Admin.jsp", request, response);
     }

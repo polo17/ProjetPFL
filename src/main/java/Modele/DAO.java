@@ -107,7 +107,7 @@ public class DAO {
     public List<String> getDescriptions() throws SQLException {
 
         List<String> result = new LinkedList<>();
-        String sql = "SELECT DESCRIPTION FROM PRODUCT";
+        String sql = "SELECT DESCRIPTION FROM PRODUCT WHERE AVAILABLE = 'TRUE'";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -312,6 +312,42 @@ public class DAO {
 
         return result;
     }
+    
+    public String getMaxDate() throws SQLException {
+        String result = "";
+        String sql = "SELECT MAX(SHIPPING_DATE) AS DATE FROM PURCHASE_ORDER";
+
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = (Date) rs.getObject("DATE");
+                result = sdf.format(date);
+            }
+        }
+
+        return result;
+    }
+    
+    public String getMinDate() throws SQLException {
+        String result = "";
+        String sql = "SELECT MIN(SHIPPING_DATE) AS DATE FROM PURCHASE_ORDER";
+
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = (Date) rs.getObject("DATE");
+                result = sdf.format(date);
+            }
+        }
+
+        return result;
+    }
 
     public List<Integer> getOrderNum(int customer_id) throws SQLException {
 
@@ -385,7 +421,7 @@ public class DAO {
     public String getName(int customer) throws SQLException {
 
         String result = "";
-        String sql = "SELECT NAME FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+        String sql = "SELECT NAME AS NOM FROM CUSTOMER WHERE CUSTOMER_ID = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -394,7 +430,7 @@ public class DAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
-                result = rs.getString("NAME");
+                result = rs.getString("NOM");
             }
         }
 
