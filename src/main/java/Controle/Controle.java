@@ -278,8 +278,12 @@ public class Controle extends HttpServlet {
         List<ChiffreAffaire> chiffres = new LinkedList<>();
 
         List<String> states = dao.getStates();
-
         List<ChiffreAffaire> chiffres_etat = new LinkedList<>();
+        
+        List<Integer> pids = dao.getProducts_id();
+        List<ChiffreAffaire> chiffres_prod = new LinkedList<>();
+        
+
 
         for (int c = 0; c < customers_ids.size(); c++) { //Calcul du total entier
             List<Double> prix = dao.getPurchaseCost(1);
@@ -290,6 +294,22 @@ public class Controle extends HttpServlet {
                 total = total + quantites.get(i) * prix.get(i);
             }
             total_tout = total_tout + total;
+        }
+        
+        for (int c = 0; c < pids.size(); c++) { //Calcul du chiffre par produit
+            int pid = pids.get(c);
+            
+            int quantite = dao.getQuantity_pid(pid); //quantite de commande
+            
+            String nom = dao.getDescrption_pid(pid); //nom du produit
+            
+            double prix = dao.getPurchaseCost(nom); //prix du produit
+
+            double total = 0;
+            total = total + quantite * prix;
+
+            ChiffreAffaire ca = new ChiffreAffaire(nom, ((total * 100) / total_tout) / 100);
+            chiffres_prod.add(ca);
         }
 
         for (int c = 0; c < customers_ids.size(); c++) { //Calcul du chiffre par client
@@ -330,6 +350,7 @@ public class Controle extends HttpServlet {
 
         request.setAttribute("chiffres", chiffres);
         request.setAttribute("chiffres_etat", chiffres_etat);
+        request.setAttribute("chiffres_prod", chiffres_prod);
 
         showView("Admin.jsp", request, response);
     }
