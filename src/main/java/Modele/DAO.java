@@ -182,6 +182,25 @@ public class DAO {
         return result;
     }
     
+    public int getQuantity_pid(int pid) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT QUANTITY FROM PURCHASE_ORDER WHERE PRODUCT_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, pid);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("QUANTITY");
+            }
+          
+        }
+
+        return result;
+    }
+    
     public int getQuantity_p(int order) throws SQLException {
 
         int result = 0;
@@ -273,6 +292,23 @@ public class DAO {
 
         return result;
     }
+    
+    public String getDescrption_pid(int pid) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT DESCRIPTION FROM product WHERE PRODUCT_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, pid);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("DESCRIPTION");
+            }  
+        }
+
+        return result;
+    }
 
     // addBonCommande permet d'ajouter un bon de commande à un client
     public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, String sales_date, String shipping_date, String company) throws SQLException {
@@ -307,6 +343,57 @@ public class DAO {
 
             if (rs.next()) {
                 result = rs.getInt("NUMBER");
+            }
+        }
+
+        return result;
+    }
+    
+    public List<Integer> getProducts_id() throws SQLException {
+
+        List<Integer> result = new LinkedList<>();
+        String sql = "SELECT PRODUCT_ID FROM PURCHASE_ORDER";
+
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int pid = rs.getInt("PRODUCT_ID");
+                result.add(pid);
+            }
+        }
+        return result;
+    }
+    
+    public List<String> getStates() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT STATE FROM CUSTOMER";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String state = rs.getString("STATE");
+                result.add(state);
+            }
+        }
+
+        return result;
+    }
+    
+    public List<Integer> getCustomer_s(String state) throws SQLException {
+
+        List<Integer> result = new LinkedList<>();
+        String sql = "SELECT CUSTOMER_ID FROM CUSTOMER WHERE STATE = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, state);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt("CUSTOMER_ID");
+                result.add(cid);
             }
         }
 
