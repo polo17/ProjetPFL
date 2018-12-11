@@ -80,7 +80,7 @@ public class DAOTest {
         assertEquals(1,(long)l.get(0));
     }
     
-    // testGetProductDescription() teste la méthode getProductDescription()
+    // testGetProductDescription() teste la méthode getProductDescription() du DAO
     @Test
     public void testGetProductDescription() throws SQLException {
         List<String> l = myDAO.getProductDescription(1); //pour le customer_id 1
@@ -88,7 +88,7 @@ public class DAOTest {
         assertEquals("Identity Server",l.get(0));
     }
     
-    // testGetPurchaseCost() teste la méthode getPurchaseCost()
+    // testGetPurchaseCost() teste la méthode getPurchaseCost() du DAO
     @Test
     public void testGetPurchaseCost() throws SQLException {
         List<Double> l = myDAO.getPurchaseCost(1); //pour le customer_id 1

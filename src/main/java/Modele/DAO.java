@@ -65,7 +65,7 @@ public class DAO {
         return result;
     }
 
-    // getProductDescription permet d'obtenir la liste des descriptions des produits du client
+    // getProductDescription permet d'obtenir la liste des descriptions des produits du client entré en paramètre
     public List<String> getProductDescription(int customer_id) throws SQLException {
 
         List<String> result = new LinkedList<>();
@@ -84,7 +84,7 @@ public class DAO {
         return result;
     }
 
-    //getPurchaseCost permet d'obtenir les prix d'achat des produits achetés par le client
+    // getPurchaseCost permet d'obtenir les prix d'achat des produits achetés par le client entré en paramètre
     public List<Double> getPurchaseCost(int customer_id) throws SQLException {
 
         List<Double> result = new LinkedList<>();
@@ -103,7 +103,7 @@ public class DAO {
         return result;
     }
 
-    //getDescriptions permet d'obtenir la liste des descriptions des produits
+    // getDescriptions permet d'obtenir la liste des descriptions des produits
     public List<String> getDescriptions() throws SQLException {
 
         List<String> result = new LinkedList<>();
@@ -310,29 +310,6 @@ public class DAO {
         return result;
     }
 
-    // addBonCommande permet d'ajouter un bon de commande à un client
-    public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, String sales_date, String shipping_date, String company) throws SQLException {
-
-        int result = 0;
-        String sql = "INSERT INTO PURCHASE_ORDER VALUES (?,?,?,?,?,?,?,?)";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, order_num);
-            stmt.setInt(2, customer_id);
-            stmt.setInt(3, product_id);
-            stmt.setInt(4, quantity);
-            stmt.setDouble(5, shipping_cost);
-            stmt.setString(6, sales_date);
-            stmt.setString(7, shipping_date);
-            stmt.setString(8, company);
-
-            result = stmt.executeUpdate();
-        }
-
-        return result;
-    }
-
     public int getMaxOrderNum() throws SQLException {
         int result = 0;
         String sql = "SELECT MAX(ORDER_NUM) AS NUMBER FROM PURCHASE_ORDER";
@@ -450,37 +427,6 @@ public class DAO {
                 int order_num = rs.getInt("NUMBER");
                 result.add(order_num);
             }
-        }
-
-        return result;
-    }
-
-    // modifyBonCommande permet de mofidier un bon de commande d'un client
-    public int modifyBonCommande(int num, int quantity) throws SQLException {
-
-        int result = 0;
-        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ? WHERE ORDER_NUM = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, quantity);
-            stmt.setInt(2, num);
-            result = stmt.executeUpdate();
-        }
-
-        return result;
-    }
-    
-    // deleteBonCommande permet de supprimer un bon de commande à un client
-    public int deleteBonCommande(int num) throws SQLException {
-
-        int result = 0;
-        String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, num);
-            result = stmt.executeUpdate();
         }
 
         return result;
@@ -657,6 +603,100 @@ public class DAO {
         return result;
     }
 
+    // getProductId permet de récupérer le product_id de la description du produit donnée
+    public int getProductId(String description) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT PRODUCT_ID AS ID FROM PRODUCT WHERE DESCRIPTION = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, description);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("ID");
+            }
+        }
+
+        return result;
+    }
+
+    // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
+    public double getPurchaseCost(String description) throws SQLException {
+
+        double result = 0.;
+        String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE DESCRIPTION = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, description);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getDouble("COST");
+            }
+        }
+
+        return result;
+    }
+    
+    // addBonCommande permet d'ajouter un bon de commande à un client
+    public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, String sales_date, String shipping_date, String company) throws SQLException {
+
+        int result = 0;
+        String sql = "INSERT INTO PURCHASE_ORDER VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order_num);
+            stmt.setInt(2, customer_id);
+            stmt.setInt(3, product_id);
+            stmt.setInt(4, quantity);
+            stmt.setDouble(5, shipping_cost);
+            stmt.setString(6, sales_date);
+            stmt.setString(7, shipping_date);
+            stmt.setString(8, company);
+
+            result = stmt.executeUpdate();
+        }
+
+        return result;
+    }
+    
+    // modifyBonCommande permet de mofidier un bon de commande d'un client
+    public int modifyBonCommande(int num, int quantity) throws SQLException {
+
+        int result = 0;
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ? WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, num);
+            result = stmt.executeUpdate();
+        }
+
+        return result;
+    }
+    
+    // deleteBonCommande permet de supprimer un bon de commande à un client
+    public int deleteBonCommande(int num) throws SQLException {
+
+        int result = 0;
+        String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, num);
+            result = stmt.executeUpdate();
+        }
+
+        return result;
+    }
+    
     // modifyClient permet de modifier un client
     public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone,
             String fax, String email, int id) throws SQLException {
@@ -682,46 +722,6 @@ public class DAO {
 
             result = stmt.executeUpdate();
         }
-        return result;
-    }
-
-    // getProductId permet de récupérer le product_id de la description du produit donnée
-    public int getProductId(String description) throws SQLException {
-
-        int result = 0;
-        String sql = "SELECT PRODUCT_ID AS ID FROM APP.PRODUCT WHERE DESCRIPTION = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, description);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getInt("ID");
-            }
-        }
-
-        return result;
-    }
-
-    // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
-    public double getPurchaseCost(String description) throws SQLException {
-
-        double result = 0.;
-        String sql = "SELECT PURCHASE_COST AS COST FROM APP.PRODUCT WHERE DESCRIPTION = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, description);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getDouble("COST");
-            }
-        }
-
         return result;
     }
 }
