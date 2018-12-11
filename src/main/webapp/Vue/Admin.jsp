@@ -29,7 +29,7 @@
                 data.addColumn('string', 'Element');
                 data.addColumn('number', 'Percentage');
                 data.addRows([
-            <c:forEach var="ca" items="${chiffres}">
+            <c:forEach var="ca" items="${chiffres_produit}">
                     ['${ca.nom}', ${ca.total}],
             </c:forEach>
                 ]);
@@ -55,10 +55,9 @@
             function drawRegionsMap() {
                 var data = google.visualization.arrayToDataTable([
                     ['State', 'Foo Factor'],
-                    ['US-IL', 200],
-                    ['US-IN', 300],
-                    ['US-IA', 20],
-                    ['US-RI', 150]
+            <c:forEach var="ca" items="${chiffres_etat}">
+                    ['${ca.nom}', ${ca.total}],
+            </c:forEach>
                 ]);
 
                 var options2 = {title: "Chiffre d'affaire selon les Etats",width: 556, height: 347, region: "US", resolution: "provinces",backgroundColor: '#81d4fa'};
@@ -79,11 +78,9 @@
 
                 var data = google.visualization.arrayToDataTable([
                     ['City', '2010 Population', ],
-                    ['New York City, NY', 8175000],
-                    ['Los Angeles, CA', 3792000],
-                    ['Chicago, IL', 2695000],
-                    ['Houston, TX', 2099000],
-                    ['Philadelphia, PA', 1526000]
+            <c:forEach var="ca" items="${chiffres}">
+                    ['${ca.nom}', ${ca.total}],
+            </c:forEach>
                 ]);
 
                 var options = {
