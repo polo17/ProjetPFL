@@ -16,34 +16,100 @@
     </head>
     <body>
         <h1>Statistiques des commandes</h1>
-        
+
         <p <span id="gProd"></span></p>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {packages: ['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-      // Define the chart to be drawn.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Element');
-      data.addColumn('number', 'Percentage');
-      data.addRows([
-        <c:forEach var="ca" items="${chiffres}">
-            ['${ca.nom}', ${ca.total}],
-        </c:forEach>
-      ]);
+            function drawChart() {
+                // Define the chart to be drawn.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Element');
+                data.addColumn('number', 'Percentage');
+                data.addRows([
+            <c:forEach var="ca" items="${chiffres}">
+                    ['${ca.nom}', ${ca.total}],
+            </c:forEach>
+                ]);
+                var options3 = {title: "Chiffre d'affaire selon les produits"};
 
-      // Instantiate and draw the chart.
-      var chart = new google.visualization.PieChart(document.getElementById('gProd'));
-      chart.draw(data, null);
-    }
-  </script>
-    <input type="date" id="start" name="name"
-       value="selectDate"
-       min="${minDate}" max="${maxDate}">
-        
-        
+                // Instantiate and draw the chart.
+                var chart = new google.visualization.PieChart(document.getElementById('gProd'));
+                chart.draw(data, options3);
+            }
+        </script>
+
+        <p <span id="gState"></span></p>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {
+                'packages': ['geochart'],
+                // Note: you will need to get a mapsApiKey for your project.
+                // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+                'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+            });
+            google.charts.setOnLoadCallback(drawRegionsMap);
+
+            function drawRegionsMap() {
+                var data = google.visualization.arrayToDataTable([
+                    ['State', 'Foo Factor'],
+                    ['US-IL', 200],
+                    ['US-IN', 300],
+                    ['US-IA', 20],
+                    ['US-RI', 150]
+                ]);
+
+                var options2 = {title: "Chiffre d'affaire selon les Etats",width: 556, height: 347, region: "US", resolution: "provinces",backgroundColor: '#81d4fa'};
+
+                var chart = new google.visualization.GeoChart(document.getElementById('gState'));
+
+                chart.draw(data, options2);
+            }
+        </script>
+
+        <p <span id="gCli"></span></p>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {packages: ['corechart', 'bar']});
+            google.charts.setOnLoadCallback(drawBasic);
+
+            function drawBasic() {
+
+                var data = google.visualization.arrayToDataTable([
+                    ['City', '2010 Population', ],
+                    ['New York City, NY', 8175000],
+                    ['Los Angeles, CA', 3792000],
+                    ['Chicago, IL', 2695000],
+                    ['Houston, TX', 2099000],
+                    ['Philadelphia, PA', 1526000]
+                ]);
+
+                var options = {
+                    title: "Chiffre d'affaire selon les clients",
+                    chartArea: {width: '50%'},
+                    hAxis: {
+                        title: 'Total Population',
+                        minValue: 0
+                    },
+                    vAxis: {
+                        title: 'City'
+                    }
+                };
+
+                var chart = new google.visualization.BarChart(document.getElementById('gCli'));
+
+                chart.draw(data, options);
+            }
+        </script>
+
+
+        <input type="date" id="start" name="name"
+               value="selectDate"
+               min="${minDate}" max="${maxDate}">
+
+
         <form method="POST">
             <input name="action" value="Déconnexion" type="SUBMIT">
         </form> 
