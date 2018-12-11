@@ -313,6 +313,42 @@ public class DAO {
         return result;
     }
     
+    
+    public List<String> getStates() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT STATE FROM CUSTOMER";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String state = rs.getString("STATE");
+                result.add(state);
+            }
+        }
+
+        return result;
+    }
+    
+    public List<Integer> getCustomer_s(String state) throws SQLException {
+
+        List<Integer> result = new LinkedList<>();
+        String sql = "SELECT CUSTOMER_ID FROM CUSTOMER WHERE STATE = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, state);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt("CUSTOMER_ID");
+                result.add(cid);
+            }
+        }
+
+        return result;
+    }
+    
     public String getMaxDate() throws SQLException {
         String result = "";
         String sql = "SELECT MAX(SHIPPING_DATE) AS DATE FROM PURCHASE_ORDER";

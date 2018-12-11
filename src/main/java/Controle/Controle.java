@@ -145,7 +145,9 @@ public class Controle extends HttpServlet {
         request.setAttribute("email", email);
 
         try {
+            System.out.println("ok");
             int order = Integer.parseInt(request.getParameter("orderm"));
+            System.out.println(order);
 
             int quantity_p = dao.getQuantity_p(order);
             String description_p = dao.getDescrption_p(order);
@@ -162,6 +164,8 @@ public class Controle extends HttpServlet {
             request.setAttribute("date_p", date_p);
             request.setAttribute("nomc_p", companie_p);
             request.setAttribute("num_p", order);
+
+            System.out.println("description_p");
 
         } catch (NumberFormatException e) {
 
@@ -273,7 +277,11 @@ public class Controle extends HttpServlet {
         List<Integer> customers_ids = dao.getCustomerIds();
         List<ChiffreAffaire> chiffres = new LinkedList<>();
 
-        for (int c = 0; c < customers_ids.size(); c++) {
+        List<String> states = dao.getStates();
+
+        List<ChiffreAffaire> chiffres_etat = new LinkedList<>();
+
+        for (int c = 0; c < customers_ids.size(); c++) { //Calcul du total entier
             List<Double> prix = dao.getPurchaseCost(1);
             List<Integer> quantites = dao.getQuantity(1);
 
@@ -284,7 +292,7 @@ public class Controle extends HttpServlet {
             total_tout = total_tout + total;
         }
 
-        for (int c = 0; c < customers_ids.size(); c++) {
+        for (int c = 0; c < customers_ids.size(); c++) { //Calcul du chiffre par client
             int id = customers_ids.get(c);
             String nom = dao.getName(id);
 
@@ -295,13 +303,33 @@ public class Controle extends HttpServlet {
             for (int i = 0; i < quantites.size(); i++) {
                 total = total + quantites.get(i) * prix.get(i);
             }
-            
-            ChiffreAffaire ca = new ChiffreAffaire(nom, ((total * 100)/total_tout)/100);
+
+            ChiffreAffaire ca = new ChiffreAffaire(nom, ((total * 100) / total_tout) / 100);
             chiffres.add(ca);
-            
+
+        }
+        for (int s = 0; s < states.size(); s++) { //Calcul du chiffre par etat
+            List<Integer> custom = dao.getCustomer_s(states.get(s));
+            for (int c = 0; c < custom.size(); c++) { //Calcul du chiffre par etat (en parcourant les habitants des états)
+                int id = customers_ids.get(c);
+                String nom = dao.getName(id);
+
+                List<Double> prix = dao.getPurchaseCost(id);
+                List<Integer> quantites = dao.getQuantity(id);
+
+                double total = 0;
+                for (int i = 0; i < quantites.size(); i++) {
+                    total = total + quantites.get(i) * prix.get(i);
+                }
+                
+                ChiffreAffaire ca = new ChiffreAffaire("US-"+states.get(s), ((total * 100) / total_tout) / 100);
+                chiffres_etat.add(ca);
+
+            }
         }
 
         request.setAttribute("chiffres", chiffres);
+        request.setAttribute("chiffres_etat", chiffres_etat);
 
         showView("Admin.jsp", request, response);
     }
