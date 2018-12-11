@@ -1,10 +1,10 @@
 body {
-    background: #3a312d; } 
+    background: #303030; } 
 h1{
     text-align:center;
-    color : #eadbb2;
-    font-family:"onyx";
-    font-size:700%;
+    color : #4ff3b2;
+    font-family:"Verdana, Geneva, sans-serif";
+    font-size:600%;
 }
 /*.btn-dark {
     background: #2B7379;
@@ -14,30 +14,43 @@ h1{
     background: #E3CCBD;
 }
  */
-.form-signin {
-    
-    border: 10px black;
+.form-signin {   
+    border: 10px red;
     border-radius: 50%;
     width: 400px;
     height: 400px;
     margin-left: auto;
     margin-right: auto;
     vertical-align: middle;
-    background: white;
+    background:#303030;
     padding:40px;
+    color:#7fdfd7;
 }
 
 .form-group {  
+    
     width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
 
-#section {
-    position:fixed;
+#bulle {
+    position:relative;
+    top:15%;
+      
 }
 
-
+#bullesup {
+    border-radius: 50%;
+    width: 420px;
+    height: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    background: #7fdfd7;
+    padding:9px;
+  
+}
 
 
 /*

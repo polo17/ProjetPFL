@@ -18,6 +18,7 @@
         <br>
         <h1>Veuillez vous connecter</h1>
         <br><br>
+        <section id="bullesup">
         <form class="form-signin" method="POST">
           <section id="bulle">
           <div class="form-group">
@@ -33,6 +34,7 @@
           </section>
           <a style="color:red">${erreur}</a>
         </form>
+        </section>
     </body>
 </html>
 
