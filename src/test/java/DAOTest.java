@@ -96,14 +96,14 @@ public class DAOTest {
         assertEquals(1095,00,l.get(0));
     }
     
-    // testGetDescriptions() teste la méthode getDescriptions()
+    // testGetDescriptions() teste la méthode getDescriptions() du DAO
     @Test
     public void testGetDescriptions() throws SQLException {
         List<String> l = myDAO.getDescriptions();
         assertEquals(3,l.size());
     }
     
-    // testGetDates() teste la méthode getDates()
+    // testGetDates() teste la méthode getDates() du DAO
     @Test
     public void testGetDates() throws SQLException {
         List<String> l = myDAO.getDates(1); //pour le customer_id 1
@@ -111,7 +111,7 @@ public class DAOTest {
         assertEquals("2011-05-24",l.get(0));
     }
     
-    // testGetCompanies() teste la méthode getCompanies()
+    // testGetCompanies() teste la méthode getCompanies() du DAO
     @Test
     public void testGetCompanies() throws SQLException {
         List<String> l = myDAO.getCompanies(2); //pour le customer_id 2
@@ -119,13 +119,64 @@ public class DAOTest {
         assertEquals("Poney Express",l.get(1));
     }
     
-    // testGetQuantity() teste la méthode getQuantity()
+    // testGetQuantity() teste la méthode getQuantity() du DAO
     @Test
     public void testGetQuantity() throws SQLException {
         List<Integer> l = myDAO.getQuantity(2); //pour le customer_id 2
         assertEquals(2,l.size());
         assertEquals(25,(long)l.get(1));
     }
+    
+    // testGetQuantity_pid() teste la méthode getQuantity_pid() du DAO
+    @Test
+    public void testGetQuantity_pid() throws SQLException {
+        int r = myDAO.getQuantity_pid(980001); //pour le produit 980001
+        assertEquals(10,r);
+    }
+    
+    // testGetQuantity_p() teste la méthode getQuantity_p() du DAO
+    @Test
+    public void testGetQuantity_p() throws SQLException {
+        int r = myDAO.getQuantity_p(10398003); //pour le bon de commande 10398003
+        assertEquals(25,r);
+    }
+    
+    // testGetCompanies_p() teste la méthode getCompanies_p() du DAO
+    @Test
+    public void testGetCompanies_p() throws SQLException {
+        String s = myDAO.getCompanies_p(10398002); //pour le bon de commande 10398002
+        assertEquals("Poney Express",s);
+    }
+    
+    // testGetPurchaseCost_p() teste la méthode getPurchaseCost_p() du DAO
+    @Test
+    public void testGetPurchaseCost_p() throws SQLException {
+        Double d = myDAO.getPurchaseCost_p(10398001); //pour le bon de commande 10398001
+        assertEquals(1095,00,d);
+    }
+    
+    // testGetDates_p() teste la méthode getDates_p() du DAO
+    @Test
+    public void testGetDates_p() throws SQLException {
+        String s = myDAO.getDates_p(10398001); //pour le bon de commande 10398001
+        assertEquals("2011-05-24",s);
+    }
+       
+    // testGetDescription_p() teste la méthode getDescription_p() du DAO
+    @Test
+    public void testGetDescription_p() throws SQLException {
+        String s = myDAO.getDescription_p(10398001); //pour le bon de commande 10398001
+        assertEquals("Identity Server",s);
+    }
+    
+    // testGetDescription_pid() teste la méthode getDescription_pid() du DAO
+    @Test
+    public void testGetDescription_pid() throws SQLException {
+        String s = myDAO.getDescription_pid(980005); //pour le produit 980005
+        assertEquals("Accounting Application",s);
+    }
+    
+    
     
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
     @Test

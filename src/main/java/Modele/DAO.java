@@ -84,7 +84,7 @@ public class DAO {
         return result;
     }
 
-    // getPurchaseCost permet d'obtenir les prix d'achat des produits achetés par le client entré en paramètre
+    // getPurchaseCost permet d'obtenir la liste des prix d'achat des produits achetés par le client entré en paramètre
     public List<Double> getPurchaseCost(int customer_id) throws SQLException {
 
         List<Double> result = new LinkedList<>();
@@ -121,7 +121,7 @@ public class DAO {
         return result;
     }
 
-    // getDates permet d'obtenir les dates de vente des produits achetés par le client
+    // getDates permet d'obtenir la liste des dates de vente des produits achetés par le client entré en paramètre
     public List<String> getDates(int customer_id) throws SQLException {
 
         List<String> result = new LinkedList<>();
@@ -136,7 +136,6 @@ public class DAO {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = (Date) rs.getObject("SALES_DATE");
                 String dateS = sdf.format(date);
-
                 result.add(dateS);
             }
         }
@@ -144,7 +143,7 @@ public class DAO {
         return result;
     }
 
-    // getCompanies permet d'obtenir les noms des entreprises dont les produits ont été achetés par le client
+    // getCompanies permet d'obtenir la liste des noms des entreprises dont les produits ont été achetés par le client entré en paramètre
     public List<String> getCompanies(int customer_id) throws SQLException {
 
         List<String> result = new LinkedList<>();
@@ -163,7 +162,7 @@ public class DAO {
         return result;
     }
 
-    // getQuantity permet d'obtenir le nombre de produits achetés par le client
+    // getQuantity permet d'obtenir la liste des nombres de produits achetés par le client entré en paramètre
     public List<Integer> getQuantity(int customer_id) throws SQLException {
 
         List<Integer> result = new LinkedList<>();
@@ -182,6 +181,7 @@ public class DAO {
         return result;
     }
     
+    // getQuantity_pid permet d'obtenir la quantité achetée du produit entré en paramètre
     public int getQuantity_pid(int pid) throws SQLException {
 
         int result = 0;
@@ -201,6 +201,7 @@ public class DAO {
         return result;
     }
     
+    // getQuantity_p permet d'obtenir la quantité achetée du produit correspondant au bon de commande entré en paramètre
     public int getQuantity_p(int order) throws SQLException {
 
         int result = 0;
@@ -220,6 +221,7 @@ public class DAO {
         return result;
     }
     
+    // getCompanies_p permet d'obtenir le nom de l'entreprise correspondant au bon de commande entré en paramètre
     public String getCompanies_p(int order) throws SQLException {
 
         String result = "";
@@ -237,6 +239,7 @@ public class DAO {
         return result;
     }
     
+    // getPurchaseCost_p permet d'obtenir le prix d'achat du produit correspondant au bon de commande entré en paramètre
     public double getPurchaseCost_p(int order) throws SQLException {
 
         double result = 0;
@@ -255,6 +258,7 @@ public class DAO {
         return result;
     }
     
+    // getDates_p permet d'obtenir la date de vente du produit correspondant au bon de commande entré en paramètre
     public String getDates_p(int order) throws SQLException {
 
         String result = "";
@@ -276,7 +280,8 @@ public class DAO {
         return result;
     }
     
-    public String getDescrption_p(int order) throws SQLException {
+    // getDescription_p permet d'obtenir la description du produit correspondant au bon de commande entré en paramètre
+    public String getDescription_p(int order) throws SQLException {
 
         String result = "";
         String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
@@ -293,7 +298,8 @@ public class DAO {
         return result;
     }
     
-    public String getDescrption_pid(int pid) throws SQLException {
+    // getDescription_pid permet d'obtenir la description du produit correspondant au produit entré en paramètre
+    public String getDescription_pid(int pid) throws SQLException {
 
         String result = "";
         String sql = "SELECT DESCRIPTION FROM product WHERE PRODUCT_ID = ?";
