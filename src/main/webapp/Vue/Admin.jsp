@@ -17,6 +17,9 @@
     <body>
         <h1>Statistiques des commandes</h1>
 
+        <div class="container">
+              <div class="row">
+                  <div class="col">
         <p <span id="gProd"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -41,6 +44,8 @@
             }
         </script>
 
+        </div>
+        <div class="col">          
         <p <span id="gState"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -68,6 +73,9 @@
             }
         </script>
 
+        </div>
+                  <div class="col">       
+                  
         <p <span id="gCli"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -100,8 +108,9 @@
                 chart.draw(data, options);
             }
         </script>
-
-
+</div>  
+</div>
+            </div>
         <input type="date" id="start" name="name"
                value="selectDate"
                min="${minDate}" max="${maxDate}">

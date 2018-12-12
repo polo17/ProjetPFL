@@ -1,12 +1,28 @@
 
 #gProd {
-    width:900px;
+    width:300px;
     height:500px;
+
    
 }
 
 #gState {
-    width:600px;
-    height:500px;
+    width:200px;
+    height:300px;
+
    
 }
+
+#gCli {
+    width:300px;
+    height:500px;
+
+   
+}
+
+.col {
+    background : grey;
+    width:1000px;
+}
+
+

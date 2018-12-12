@@ -150,7 +150,7 @@ public class Controle extends HttpServlet {
             System.out.println(order);
 
             int quantity_p = dao.getQuantity_p(order);
-            String description_p = dao.getDescrption_p(order);
+            String description_p = dao.getDescription_p(order);
             double prix_p = dao.getPurchaseCost_p(order);
             String companie_p = dao.getCompanies_p(order);
             String date_p = dao.getDates_p(order);
@@ -301,7 +301,7 @@ public class Controle extends HttpServlet {
             
             int quantite = dao.getQuantity_pid(pid); //quantite de commande
             
-            String nom = dao.getDescrption_pid(pid); //nom du produit
+            String nom = dao.getDescription_pid(pid); //nom du produit
             
             double prix = dao.getPurchaseCost(nom); //prix du produit
 
