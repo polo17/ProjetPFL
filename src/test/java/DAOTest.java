@@ -169,6 +169,15 @@ public class DAOTest {
         assertEquals("Identity Server",s);
     }
     
+    // testGetDescription_pid() teste la méthode getDescription_pid() du DAO
+    @Test
+    public void testGetDescription_pid() throws SQLException {
+        String s = myDAO.getDescription_pid(980005); //pour le produit 980005
+        assertEquals("Accounting Application",s);
+    }
+    
+    
+    
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
     @Test
     public void testGetMaxOrderNum() throws SQLException {

@@ -298,7 +298,8 @@ public class DAO {
         return result;
     }
     
-    public String getDescrption_pid(int pid) throws SQLException {
+    // getDescription_pid permet d'obtenir la description du produit correspondant au produit entré en paramètre
+    public String getDescription_pid(int pid) throws SQLException {
 
         String result = "";
         String sql = "SELECT DESCRIPTION FROM product WHERE PRODUCT_ID = ?";
