@@ -69,7 +69,7 @@ public class DAOTest {
     public void testGetEmails() throws SQLException {
         List<String> l = myDAO.getEmails();
         assertEquals(2,l.size());
-        //assertEquals("jumboeagle@example.com",l.get(0));
+        assertEquals("jumboeagle@example.com",l.get(0));
     }
     
     // testGetCustomerIds() teste la méthode getCustomerIds() du DAO
@@ -83,7 +83,7 @@ public class DAOTest {
     // testGetProductDescription() teste la méthode getProductDescription() du DAO
     @Test
     public void testGetProductDescription() throws SQLException {
-        List<String> l = myDAO.getProductDescription(1); //pour le customer_id 1
+        List<String> l = myDAO.getProductDescription(1); // pour le customer_id 1
         assertEquals(1,l.size());
         assertEquals("Identity Server",l.get(0));
     }
@@ -91,7 +91,7 @@ public class DAOTest {
     // testGetPurchaseCost() teste la méthode getPurchaseCost() du DAO
     @Test
     public void testGetPurchaseCost() throws SQLException {
-        List<Double> l = myDAO.getPurchaseCost(1); //pour le customer_id 1
+        List<Double> l = myDAO.getPurchaseCost(1); // pour le customer_id 1
         assertEquals(1,l.size());
         assertEquals(1095,00,l.get(0));
     }
@@ -106,7 +106,7 @@ public class DAOTest {
     // testGetDates() teste la méthode getDates() du DAO
     @Test
     public void testGetDates() throws SQLException {
-        List<String> l = myDAO.getDates(1); //pour le customer_id 1
+        List<String> l = myDAO.getDates(1); // pour le customer_id 1
         assertEquals(1,l.size());
         assertEquals("2011-05-24",l.get(0));
     }
@@ -114,7 +114,7 @@ public class DAOTest {
     // testGetCompanies() teste la méthode getCompanies() du DAO
     @Test
     public void testGetCompanies() throws SQLException {
-        List<String> l = myDAO.getCompanies(2); //pour le customer_id 2
+        List<String> l = myDAO.getCompanies(2); // pour le customer_id 2
         assertEquals(2,l.size());
         assertEquals("Poney Express",l.get(1));
     }
@@ -122,7 +122,7 @@ public class DAOTest {
     // testGetQuantity() teste la méthode getQuantity() du DAO
     @Test
     public void testGetQuantity() throws SQLException {
-        List<Integer> l = myDAO.getQuantity(2); //pour le customer_id 2
+        List<Integer> l = myDAO.getQuantity(2); // pour le customer_id 2
         assertEquals(2,l.size());
         assertEquals(25,(long)l.get(1));
     }
@@ -130,53 +130,51 @@ public class DAOTest {
     // testGetQuantity_pid() teste la méthode getQuantity_pid() du DAO
     @Test
     public void testGetQuantity_pid() throws SQLException {
-        int r = myDAO.getQuantity_pid(980001); //pour le produit 980001
+        int r = myDAO.getQuantity_pid(980001); // pour le produit 980001
         assertEquals(10,r);
     }
     
     // testGetQuantity_p() teste la méthode getQuantity_p() du DAO
     @Test
     public void testGetQuantity_p() throws SQLException {
-        int r = myDAO.getQuantity_p(10398003); //pour le bon de commande 10398003
+        int r = myDAO.getQuantity_p(10398003); // pour le bon de commande 10398003
         assertEquals(25,r);
     }
     
     // testGetCompanies_p() teste la méthode getCompanies_p() du DAO
     @Test
     public void testGetCompanies_p() throws SQLException {
-        String s = myDAO.getCompanies_p(10398002); //pour le bon de commande 10398002
+        String s = myDAO.getCompanies_p(10398002); // pour le bon de commande 10398002
         assertEquals("Poney Express",s);
     }
     
     // testGetPurchaseCost_p() teste la méthode getPurchaseCost_p() du DAO
     @Test
     public void testGetPurchaseCost_p() throws SQLException {
-        Double d = myDAO.getPurchaseCost_p(10398001); //pour le bon de commande 10398001
+        Double d = myDAO.getPurchaseCost_p(10398001); // pour le bon de commande 10398001
         assertEquals(1095,00,d);
     }
     
     // testGetDates_p() teste la méthode getDates_p() du DAO
     @Test
     public void testGetDates_p() throws SQLException {
-        String s = myDAO.getDates_p(10398001); //pour le bon de commande 10398001
+        String s = myDAO.getDates_p(10398001); // pour le bon de commande 10398001
         assertEquals("2011-05-24",s);
     }
        
     // testGetDescription_p() teste la méthode getDescription_p() du DAO
     @Test
     public void testGetDescription_p() throws SQLException {
-        String s = myDAO.getDescription_p(10398001); //pour le bon de commande 10398001
+        String s = myDAO.getDescription_p(10398001); // pour le bon de commande 10398001
         assertEquals("Identity Server",s);
     }
     
     // testGetDescription_pid() teste la méthode getDescription_pid() du DAO
     @Test
     public void testGetDescription_pid() throws SQLException {
-        String s = myDAO.getDescription_pid(980005); //pour le produit 980005
+        String s = myDAO.getDescription_pid(980005); // pour le produit 980005
         assertEquals("Accounting Application",s);
     }
-    
-    
     
     // testGetMaxOrderNum() teste la méthode getMaxOrderNum()
     @Test
@@ -185,35 +183,153 @@ public class DAOTest {
         assertEquals(10398003,r);
     }
     
-    // testGetProductId() teste la méthode getProductId()
+    // testGetProducts_id() teste la méthode getProducts_id() du DAO
+    @Test
+    public void testGetProducts_id() throws SQLException {
+        List<Integer> l = myDAO.getProducts_id();
+        assertEquals(3,l.size());
+        assertEquals(980005,(long)l.get(1));
+    }
+    
+    // testGetStates() teste la méthode getStates() du DAO
+    @Test
+    public void testGetStates() throws SQLException {
+        List<String> l = myDAO.getStates();
+        assertEquals(2,l.size());
+    }
+    
+    // testGetCustomer_s() teste la méthode getCustomer_s() du DAO
+    @Test
+    public void testGetCustomer_s() throws SQLException {
+        List<Integer> l = myDAO.getCustomer_s("FL"); // pour l'état de Floride
+        assertEquals(2,l.size());
+    }
+    
+    // testGetMaxDate() teste la méthode getMaxDate() du DAO
+    @Test
+    public void testGetMaxDate() throws SQLException {
+        String s = myDAO.getMaxDate();
+        assertEquals("2012-05-24",s);
+    }   
+    
+    // testGetMinDate() teste la méthode getMinDate() du DAO
+    @Test
+    public void testGetMinDate() throws SQLException {
+        String s = myDAO.getMinDate();
+        assertEquals("2011-01-24",s);
+    }   
+    
+    // testGetOrderNum() teste la méthode getOrderNum() du DAO
+    @Test
+    public void testGetOrderNum() throws SQLException {
+        List<Integer> l = myDAO.getOrderNum(2); // pour le customer_id 2
+        assertEquals(2,l.size());
+    }
+            
+    // testGetZip() teste la méthode getZip() du DAO
+    @Test
+    public void testGetZip() throws SQLException {
+        String s = myDAO.getZip(1); // pour le customer_id 1
+        assertEquals("95117",s);
+    }
+
+    // testGetName() teste la méthode getName() du DAO
+    @Test
+    public void testGetName() throws SQLException {
+        String s = myDAO.getName(1); // pour le customer_id 1
+        assertEquals("Jumbo Eagle Corp",s);
+    }
+    
+    // testGetAdress1() teste la méthode getAdress1() du DAO
+    @Test
+    public void testGetAdress1() throws SQLException {
+        String s = myDAO.getAdress1(1); // pour le customer_id 1
+        assertEquals("111 E. Las Olivas Blvd",s);
+    }
+            
+    // testGetAdress2() teste la méthode getAdress2() du DAO
+    @Test
+    public void testGetAdress2() throws SQLException {
+        String s = myDAO.getAdress2(2); // pour le customer_id 2
+        assertEquals("P.O. Box 567",s);
+    }
+    
+    // testGetCity() teste la méthode getCity() du DAO
+    @Test
+    public void testGetCity() throws SQLException {
+        String s = myDAO.getCity(1); // pour le customer_id 1
+        assertEquals("Fort Lauderdale",s);
+    }
+    
+    // testGetState() teste la méthode getState() du DAO
+    @Test
+    public void testGetState() throws SQLException {
+        String s = myDAO.getState(1); // pour le customer_id 1
+        assertEquals("FL",s);
+    }
+            
+    // testGetPhone() teste la méthode getPhone() du DAO
+    @Test
+    public void testGetPhone() throws SQLException {
+        String s = myDAO.getPhone(1); // pour le customer_id 1
+        assertEquals("305-555-0188",s);
+    }
+    
+    // testGetFax() teste la méthode getFax() du DAO
+    @Test
+    public void testGetFax() throws SQLException {
+        String s = myDAO.getFax(1); // pour le customer_id 1
+        assertEquals("305-555-0189",s);
+    }
+    
+    // testGetEmail() teste la méthode getEmail() du DAO
+    @Test
+    public void testGetEmail() throws SQLException {
+        String s = myDAO.getEmail(2); // pour le customer_id 2
+        assertEquals("www.new.example.com",s);
+    }
+    
+    // testGetProductId() teste la méthode getProductId() du DAO
     @Test
     public void testGetProductId() throws SQLException {
         int r = myDAO.getProductId("Identity Server");
         assertEquals(980001,r);
     }
     
-    // testGetPurchaseCostWithDescription() teste la méthode getPurchaseCost()
+    // testGetPurchaseCostWithDescription() teste la méthode getPurchaseCost() du DAO
     @Test
     public void testGetPurchaseCostWithDescription() throws SQLException {
-        double r = myDAO.getPurchaseCost("Identity Server");
+        double r = myDAO.getPurchaseCostWithDescription("Identity Server");
         assertEquals(1095,00,r);
     }
     
-    // testaddBonCommande() teste la méthode addBonCommande()
+    // testaddBonCommande() teste la méthode addBonCommande() du DAO
     @Test
     public void testaddBonCommande() throws SQLException {
+        List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant ajout
+        assertEquals(2,l.size());
         int r = myDAO.addBonCommande(10,2,980001,10,10.0,"2010-10-10","2010-10-10","10");
-        List<Integer> l = myDAO.getQuantity(2);
-        assertEquals(3,l.size());
+        List<Integer> l2 = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 après ajout
+        assertEquals(3,l2.size());
     }
+    
+    //MODIFY
+    
     
     // testDeleteBonCommande() teste la méthode deleteBonCommande()
     @Test 
     public void testDeleteBonCommande() throws SQLException {
-        int r = myDAO.deleteBonCommande(10);
-        List<Integer> l = myDAO.getQuantity(2);
-        //assertEquals(3,l.size());
+        List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant suppression
+        assertEquals(2,l.size());
+        int r1 = myDAO.addBonCommande(10,2,980001,10,10.0,"2010-10-10","2010-10-10","10");
+        List<Integer> l2 = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant suppression et après ajout
+        assertEquals(3,l2.size());
+        int r2 = myDAO.deleteBonCommande(10);
+        List<Integer> l3 = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 après suppression
+        assertEquals(2,l3.size());
     }
+    
+    
     
     
     public static DataSource getDataSource() throws SQLException {
