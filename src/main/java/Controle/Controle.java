@@ -46,7 +46,7 @@ public class Controle extends HttpServlet {
             ajoutCommande(request, response);
         } else if (actionIs(request, "SupprimCommande")) {
             supprCommande(request, response);
-        } else if (actionIs(request, "ModifCommande")) {
+        } else if (actionIs(request, "modifier")) {
             modifCommande(request, response);
         } else if (actionIs(request, "Modif_cli")) {
             modifClient(request, response);
@@ -144,33 +144,6 @@ public class Controle extends HttpServlet {
         String email = dao.getEmail(id);
         request.setAttribute("email", email);
 
-        try {
-            System.out.println("ok");
-            int order = Integer.parseInt(request.getParameter("orderm"));
-            System.out.println(order);
-
-            int quantity_p = dao.getQuantity_p(order);
-            String description_p = dao.getDescrption_p(order);
-            double prix_p = dao.getPurchaseCost_p(order);
-            String companie_p = dao.getCompanies_p(order);
-            String date_p = dao.getDates_p(order);
-
-            double total_p = prix_p * quantity_p;
-
-            request.setAttribute("nom_p", description_p);
-            request.setAttribute("quant_p", quantity_p);
-            request.setAttribute("prix_p", prix_p);
-            request.setAttribute("total_p", total_p);
-            request.setAttribute("date_p", date_p);
-            request.setAttribute("nomc_p", companie_p);
-            request.setAttribute("num_p", order);
-
-            System.out.println("description_p");
-
-        } catch (NumberFormatException e) {
-
-        }
-
         showView("Client.jsp", request, response);
     }
 
@@ -203,7 +176,6 @@ public class Controle extends HttpServlet {
 
         //Description
         String nom = request.getParameter("nom");
-        System.out.println(nom);
         //quantite
         int quantite = Integer.parseInt(request.getParameter("quantite"));
 
@@ -248,17 +220,17 @@ public class Controle extends HttpServlet {
         HttpSession session = request.getSession();
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-
+        
+        int quant = Integer.parseInt(request.getParameter("quantite"));
         int order = Integer.parseInt(request.getParameter("orderm"));
+        
+        Date actuelle = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dat = dateFormat.format(actuelle);
+        
+        dao.modifyBonCommande(order, quant);
 
-//        int quantity = dao.getQuantity_p(order);
-//        String description = dao.getDescrption_p(order);
-//        double prix = dao.getPurchaseCost_p(order);
-//        String companie = dao.getCompanies_p(order);
-//        String date = dao.getDates_p(order);
-//
-//        double total = prix * quantity;
-        //pageClient(request, response);
+        pageClient(request, response);
     }
 
     private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -301,7 +273,7 @@ public class Controle extends HttpServlet {
             
             int quantite = dao.getQuantity_pid(pid); //quantite de commande
             
-            String nom = dao.getDescrption_pid(pid); //nom du produit
+            String nom = dao.getDescription_pid(pid); //nom du produit
             
             double prix = dao.getPurchaseCost(nom); //prix du produit
 
