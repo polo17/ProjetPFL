@@ -99,7 +99,11 @@
             <c:forEach var="prod" items="${produits}" varStatus="status">
                 <tr>
                     <td>${prod.description}</td>
-                    <td><input type="text" class="form-control" name="quantite" aria-describedby="basic-addon1" pattern="[0-9]*" value="${prod.quantite}"></td>
+                    <td>
+                        <form method = "POST">
+                            <input type="text" class="form-control" name="quantite" size="4" aria-describedby="basic-addon1" pattern="[0-9]*" value="${prod.quantite}">
+                        </form>
+                    </td>
                     <td>${prod.prix}</td>
                     <td>${prod.total}</td>
                     <td>${prod.date}</td>
@@ -108,6 +112,7 @@
                         <form method = "POST">
                             <button type="submit" class="btn btn-dark" id="${status.getIndex()}" name="action" value="modifier">modifier</button>
                             <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
+                            <input id="prodQu" name="quantite" type="hidden" value="${prod.quantite}">
                         </form>
                     <td>
                         <form method = "POST">

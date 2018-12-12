@@ -6,14 +6,14 @@ h1{
     font-family:"Verdana, Geneva, sans-serif";
     font-size:600%;
 }
-/*.btn-dark {
-    background: #2B7379;
-    color: #112F3B;    
+.btn-dark {
+    background: #4ff3b2;
+    color: black;    
 }
 .btn-dark:hover {
-    background: #E3CCBD;
+    background: black;
 }
- */
+ 
 .form-signin {   
     border: 10px red;
     border-radius: 50%;
@@ -24,7 +24,7 @@ h1{
     vertical-align: middle;
     background:#303030;
     padding:40px;
-    color:#7fdfd7;
+    color:yellow;
 }
 
 .form-group {  
