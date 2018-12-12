@@ -18,7 +18,8 @@
     <body>
         <h1>Mon espace Client</h1>
         <br>
-        <button type="SUBMIT" class="btn btn-light" data-toggle="modal" data-target="#modifClient" id="btnModif">Modifier mes données</button>
+        <br>
+        <button type="SUBMIT" class="btn btn-dark" data-toggle="modal" data-target="#modifClient" id="btnModif">Modifier mes données</button>
         <br><br>
 
         <div id="modifClient" class="modal" tabindex="-1" role="dialog"  >
@@ -88,12 +89,12 @@
             <thead>
                 <tr>
                     <th>Nom produit</th>
-                    <th>Quantité</th>
+                    <th colspan="2">Quantité</th>
                     <th>Prix unit.</th>
                     <th>Total</th>
                     <th>Date d'achat</th>
                     <th>Nom compagnie</th>
-                    <th colspan="2">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <c:forEach var="prod" items="${produits}" varStatus="status">
@@ -102,18 +103,14 @@
                     <td>
                         <form method = "POST">
                             <input type="text" class="form-control" name="quantite" size="4" aria-describedby="basic-addon1" pattern="[0-9]*" value="${prod.quantite}">
+                            <td>   <button type="submit" class="btn btn-dark" id="${status.getIndex()}" name="action" value="modifier">modifier</button>
+                            <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
                         </form>
                     </td>
                     <td>${prod.prix}</td>
                     <td>${prod.total}</td>
                     <td>${prod.date}</td>
                     <td>${prod.companie}</td>
-                    <td>
-                        <form method = "POST">
-                            <button type="submit" class="btn btn-dark" id="${status.getIndex()}" name="action" value="modifier">modifier</button>
-                            <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
-                            <input id="prodQu" name="quantite" type="hidden" value="${prod.quantite}">
-                        </form>
                     <td>
                         <form method = "POST">
                             <button type="SUBMIT" class="btn btn-dark" name="action" value="SupprimCommande" >supprimer</button>
@@ -125,8 +122,8 @@
 
         </table>
         <br>
-
-        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#ajoutCom" id="btnAjout">Passer une commande</button>
+        <br>
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ajoutCom" id="btnAjout">Passer une commande</button>
 
         <div id="ajoutCom" class="modal" tabindex="-1" role="dialog"  >
             <div class="modal-dialog" role="document">
@@ -188,9 +185,11 @@
 
 
         <br><br>
+        <footer>
         <form method="POST">
-            <input class="btn btn-light" name="action" value="Déconnexion" type="SUBMIT">
+            <input class="btn btn-dark" id="deco" name="action" value="Déconnexion" type="SUBMIT">
         </form>
+            </footer>
     </body>
 </html>
 

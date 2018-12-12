@@ -9,6 +9,13 @@ h1{
     font-size:500%;
 }
 
+h2{
+    text-align:center;
+    color : #4ff3b2;
+    font-family:"Verdana, Geneva, sans-serif";
+    font-size:300%;
+}
+
 .modal {
     display: none;
     background-color: rgba(0,0,0,0.4);
@@ -22,6 +29,38 @@ label {
 }
 
 table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     color:#303030;
     background: #7fdfd7;
 }
+
+td {
+  vertical-align: center;
+}
+
+#btnModif {
+    background : #7fdfd7;
+    color:black;
+    margin: 0 auto;
+    display: block;
+}
+
+#btnAjout {
+    background : #4ff3b2;
+    color:black;
+    margin: 0 auto;
+    display: block;
+}
+
+#deco {
+    background : yellow;
+    color:black;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 1%;
+}
+
+footer {position: absolute; bottom: 0; left: 0; right: 0}
+
