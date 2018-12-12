@@ -188,7 +188,7 @@ public class Controle extends HttpServlet {
         int product_id = dao.getProductId(nom);
 
         //prix double
-        double prix = dao.getPurchaseCost(nom);
+        double prix = dao.getPurchaseCostWithDescription(nom);
 
         //date string
         Date actuelle = new Date();
@@ -228,7 +228,7 @@ public class Controle extends HttpServlet {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dat = dateFormat.format(actuelle);
         
-        dao.modifyBonCommande(order, quant);
+        dao.modifyBonCommande(order, quant, dat);
 
         pageClient(request, response);
     }
@@ -275,7 +275,7 @@ public class Controle extends HttpServlet {
             
             String nom = dao.getDescription_pid(pid); //nom du produit
             
-            double prix = dao.getPurchaseCost(nom); //prix du produit
+            double prix = dao.getPurchaseCostWithDescription(nom); //prix du produit
 
             double total = 0;
             total = total + quantite * prix;

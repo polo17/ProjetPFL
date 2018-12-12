@@ -692,7 +692,7 @@ public class DAO {
     public int modifyBonCommande(int num, int quantity, String date) throws SQLException {
 
         int result = 0;
-        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ?, SET SALES_DATE = ? WHERE ORDER_NUM = ?";
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ?, SALES_DATE = ? WHERE ORDER_NUM = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
