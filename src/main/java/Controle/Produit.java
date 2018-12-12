@@ -6,7 +6,7 @@
 package Controle;
 
 /**
- *
+ * retourne un Produit composé de ses caractéristiques
  * @author pedago
  */
 public class Produit {

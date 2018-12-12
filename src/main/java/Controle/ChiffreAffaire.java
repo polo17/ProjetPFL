@@ -6,13 +6,13 @@
 package Controle;
 
 /**
- *
+ * retourne un ChiffreAffaire composé d'un nom avec sa valeur
  * @author ludovic
  */
 public class ChiffreAffaire {
 
-    private String nom;
-    private double total;
+    private String nom; //Nom de la variable du chiffre d'affaire (client, produit ou état)
+    private double total; //Valeur du chiffre d'affaire
     //private String date;
     
     

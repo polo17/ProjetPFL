@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * 
  * @author Ludovic
  */
 @WebServlet(name = "Controle", urlPatterns = {"/Controle"})
@@ -55,6 +55,14 @@ public class Controle extends HttpServlet {
         }
     }
 
+    /**
+     * Sauvegarde le client connecté dans la session pour y afficher son espace client
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
     private void newConnection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
@@ -69,8 +77,10 @@ public class Controle extends HttpServlet {
 
         session.setAttribute("custom_id", mdp);
 
-        System.out.println("login " + user + " mot de passe  " + mdp);
-
+        System.out.print("");
+        System.out.println("Connexion sur " + user + " Mot de passe  " + mdp);
+        System.out.print("");
+        
         //jumboeagle@example.com
         //1
         if (mdp == 1234 && user.equals("admin")) {
@@ -86,7 +96,122 @@ public class Controle extends HttpServlet {
             showView("Connexion.jsp", request, response);
         }
     }
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthode de modification d'un client">
+    
+    /***
+     * Fonction de modification d'un client
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
 
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        int id = (Integer) session.getAttribute("custom_id");
+
+        String nom = request.getParameter("nom");
+        String adresse = request.getParameter("adresse");
+        String complement = request.getParameter("compadresse");
+        String ville = request.getParameter("ville");
+        String cp = request.getParameter("cp");
+        String etat = request.getParameter("etat");
+        String telephone = request.getParameter("telephone");
+        String fax = request.getParameter("fax");
+        String email = request.getParameter("email");
+
+        dao.modifyClient(nom, adresse, complement, ville, etat, cp, telephone, fax, email, id);
+
+        pageClient(request, response);
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes d'ajout, modification et supression commande">
+
+    /***
+     * Fonction d'ajout d'une commande dans la base de donnée
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void ajoutCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        String nom = request.getParameter("nom");
+        int quantite = Integer.parseInt(request.getParameter("quantite"));
+        int order_num = dao.getMaxOrderNum() + 1;
+        int customer_id = (Integer) session.getAttribute("custom_id");
+        int product_id = dao.getProductId(nom);
+        double prix = dao.getPurchaseCostWithDescription(nom);
+
+        Date actuelle = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dat = dateFormat.format(actuelle);
+
+        String companie = "Poney Express";
+
+        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
+
+        pageClient(request, response);
+    }
+
+    /***
+     * Fonction de supression d'une commande
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void supprCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        int order = Integer.parseInt(request.getParameter("order"));
+
+        dao.deleteBonCommande(order);
+
+        pageClient(request, response);
+    }
+
+    private void modifCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+        
+        int quant = Integer.parseInt(request.getParameter("quantite"));
+        int order = Integer.parseInt(request.getParameter("orderm"));
+        
+        Date actuelle = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dat = dateFormat.format(actuelle);
+        
+        dao.modifyBonCommande(order, quant, dat);
+
+        pageClient(request, response);
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes d'affichage pageClient et pageAdmin">
+    
+    /***
+     * Réaffichage page client prenant en compte les mises à jour de la base de donnée
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
     private void pageClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         int id = (int) session.getAttribute("custom_id");
@@ -147,92 +272,14 @@ public class Controle extends HttpServlet {
         showView("Client.jsp", request, response);
     }
 
-    private void modifClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        HttpSession session = request.getSession();
-
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-
-        int id = (Integer) session.getAttribute("custom_id");
-
-        String nom = request.getParameter("nom");
-        String adresse = request.getParameter("adresse");
-        String complement = request.getParameter("compadresse");
-        String ville = request.getParameter("ville");
-        String cp = request.getParameter("cp");
-        String etat = request.getParameter("etat");
-        String telephone = request.getParameter("telephone");
-        String fax = request.getParameter("fax");
-        String email = request.getParameter("email");
-
-        dao.modifyClient(nom, adresse, complement, ville, etat, cp, telephone, fax, email, id);
-
-        pageClient(request, response);
-    }
-
-    private void ajoutCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        HttpSession session = request.getSession();
-
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-
-        //Description
-        String nom = request.getParameter("nom");
-        //quantite
-        int quantite = Integer.parseInt(request.getParameter("quantite"));
-
-        //order_num int
-        int order_num = dao.getMaxOrderNum() + 1;
-        //cistomer id int
-        int customer_id = (Integer) session.getAttribute("custom_id");
-
-        //product id int
-        int product_id = dao.getProductId(nom);
-
-        //prix double
-        double prix = dao.getPurchaseCostWithDescription(nom);
-
-        //date string
-        Date actuelle = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        String dat = dateFormat.format(actuelle);
-
-        //companie string
-        String companie = "Poney Express";
-
-        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
-
-        pageClient(request, response);
-    }
-
-    private void supprCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        HttpSession session = request.getSession();
-
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-
-        int order = Integer.parseInt(request.getParameter("order"));
-
-        dao.deleteBonCommande(order);
-
-        pageClient(request, response);
-    }
-
-    private void modifCommande(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        HttpSession session = request.getSession();
-
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-        
-        int quant = Integer.parseInt(request.getParameter("quantite"));
-        int order = Integer.parseInt(request.getParameter("orderm"));
-        
-        Date actuelle = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dat = dateFormat.format(actuelle);
-        
-        dao.modifyBonCommande(order, quant, dat);
-
-        pageClient(request, response);
-    }
-
+    /***
+     * Réaffichage page admin prenant en compte les mises à jour de la base de donnée
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
     private void pageAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
 
@@ -326,7 +373,10 @@ public class Controle extends HttpServlet {
 
         showView("Admin.jsp", request, response);
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Méthodes de fonctionnement pour affichage et récupération action">
+    
     private boolean actionIs(HttpServletRequest request, String action) {
         return action.equals(request.getParameter("action"));
     }
@@ -334,6 +384,8 @@ public class Controle extends HttpServlet {
     private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getServletConfig().getServletContext().getRequestDispatcher("/Vue/" + jsp).forward(request, response);
     }
+    // </editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
