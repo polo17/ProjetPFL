@@ -29,7 +29,7 @@
                 data.addColumn('string', 'Element');
                 data.addColumn('number', 'Percentage');
                 data.addRows([
-            <c:forEach var="ca" items="${chiffres_produit}">
+            <c:forEach var="ca" items="${chiffres_prod}">
                     ['${ca.nom}', ${ca.total}],
             </c:forEach>
                 ]);

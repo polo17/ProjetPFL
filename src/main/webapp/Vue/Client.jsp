@@ -99,14 +99,14 @@
             <c:forEach var="prod" items="${produits}" varStatus="status">
                 <tr>
                     <td>${prod.description}</td>
-                    <td>${prod.quantite}</td>
+                    <td><input type="text" class="form-control" name="quantite" aria-describedby="basic-addon1" pattern="[0-9]*" value="${prod.quantite}"></td>
                     <td>${prod.prix}</td>
                     <td>${prod.total}</td>
                     <td>${prod.date}</td>
                     <td>${prod.companie}</td>
                     <td>
                         <form method = "POST">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modifCom" id="${status.getIndex()}">modifier</button>
+                            <button type="submit" class="btn btn-dark" id="${status.getIndex()}" name="action" value="modifier">modifier</button>
                             <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
                         </form>
                     <td>
@@ -181,67 +181,7 @@
             }
         </script>        
 
-        <div id="modifCom" class="modal" tabindex="-1" role="dialog"  >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Modifier ma commande</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" id="close3">&times; </span>
-                        </button>
-                    </div>
-                    <form method="POST">
-                        <div class="modal-body">
 
-                            <div class="form-group">
-                                <label>Nom produit : </label><input type="text" name="nompro" value="${nom_p}" readonly></div>
-                            <div class="form-group">
-                                <label>Quantité : </label><input type="text" name="quantite" value="${quant_p}"></div>  
-                            <div class="form-group">
-                                <label>Prix unit. : </label><input type="text" name="prixunit" value="${prix_p}" readonly></div>  
-                            <div class="form-group">
-                                <label>Total : </label><input type="text" name="total" value="${total_p}" readonly></div>  
-                            <div class="form-group">
-                                <label>Date d'achat : </label><input type="text" name="dateachat" value="${date_p}" readonly></div>  
-                            <div class="form-group">
-                                <label>Nom compagnie : </label><input type="text" name="nomcomp" value="${nomc_p}" readonly></div>
-                            <div class="form-group">
-                                <label>Numéro de commande : </label><input type="text" name="numcomm" value="${num_p}" readonly></div> 
-                        </div>         
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close4">Fermer</button>
-                            <button type="SUBMIT" class="btn btn-dark" name="action" value="ModifCommande">Sauvegarder</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>        
-        <script>
-            var modalc = document.getElementById('modifCom');
-            var pr = "${produits}";
-            var i;
-            for (i = 0; i < pr.length; i++) {
-                var btnc = document.getElementById(i);
-                btnc.onclick = function () {
-                    modalc.style.display = "block";
-                }
-                var fermer3 = document.getElementById("close3");
-                var fermer4 = document.getElementById("close4");
-                //ouverture quand on clique sur le bouton
-
-                //fermeture quand on clique sur la croix   
-                fermer3.onclick = function () {
-                    modalc.style.display = "none";
-                }
-                //fermeture quand on clique sur fermer   
-                fermer4.onclick = function () {
-                    modalc.style.display = "none";
-                }
-            }
-
-
-
-        </script>
         <br><br>
         <form method="POST">
             <input class="btn btn-light" name="action" value="Déconnexion" type="SUBMIT">
