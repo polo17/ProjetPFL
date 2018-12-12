@@ -342,7 +342,7 @@ public class Controle extends HttpServlet {
                     total = total + quantites.get(i) * prix.get(i);
                 }
                 
-                ChiffreAffaire ca = new ChiffreAffaire("US-"+states.get(s), ((total * 100) / total_tout) / 100);
+                ChiffreAffaire ca = new ChiffreAffaire("US-"+states.get(s), total);
                 chiffres_etat.add(ca);
 
             }
