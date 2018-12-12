@@ -316,6 +316,7 @@ public class DAO {
         return result;
     }
 
+    // getMaxOrderNum permet d'obtenir le numéro de bon commande maximal dans la table des bons de commandes
     public int getMaxOrderNum() throws SQLException {
         int result = 0;
         String sql = "SELECT MAX(ORDER_NUM) AS NUMBER FROM PURCHASE_ORDER";
@@ -332,6 +333,7 @@ public class DAO {
         return result;
     }
     
+    // getProducts_id permet d'obtenir la liste des product_ids de la table purchase_order 
     public List<Integer> getProducts_id() throws SQLException {
 
         List<Integer> result = new LinkedList<>();
@@ -348,6 +350,7 @@ public class DAO {
         return result;
     }
     
+    // getStates permet d'obtenir la liste des états des clients 
     public List<String> getStates() throws SQLException {
 
         List<String> result = new LinkedList<>();
@@ -365,6 +368,7 @@ public class DAO {
         return result;
     }
     
+    // getCustomer_s permet d'obtenir la liste des customer_ids vivant dans l'état entré en paramètre
     public List<Integer> getCustomer_s(String state) throws SQLException {
 
         List<Integer> result = new LinkedList<>();
@@ -383,6 +387,7 @@ public class DAO {
         return result;
     }
     
+    // getMaxDate permet d'obtenir la date d'envoi la plus récente d'un produit
     public String getMaxDate() throws SQLException {
         String result = "";
         String sql = "SELECT MAX(SHIPPING_DATE) AS DATE FROM PURCHASE_ORDER";
@@ -401,6 +406,7 @@ public class DAO {
         return result;
     }
     
+    // getMinDate permet d'obtenir la date d'envoi la moins récente d'un produit
     public String getMinDate() throws SQLException {
         String result = "";
         String sql = "SELECT MIN(SHIPPING_DATE) AS DATE FROM PURCHASE_ORDER";
@@ -419,6 +425,7 @@ public class DAO {
         return result;
     }
 
+    // getOrderNum permet d'obtenir la liste des numéros de bons de commande du client entré en paramètre
     public List<Integer> getOrderNum(int customer_id) throws SQLException {
 
         List<Integer> result = new LinkedList<>();
@@ -438,6 +445,7 @@ public class DAO {
         return result;
     }
 
+    // getZip permet d'obtenir le code postal du client entré en paramètre
     public String getZip(int customer) throws SQLException {
 
         String result = "";
@@ -457,6 +465,7 @@ public class DAO {
         return result;
     }
     
+    // getZip permet d'obtenir le nom du client entré en paramètre
     public String getName(int customer) throws SQLException {
 
         String result = "";
@@ -476,6 +485,7 @@ public class DAO {
         return result;
     }
 
+    // getAdress1 permet d'obtenir l'addresse1 du client entré en paramètre
     public String getAdress1(int customer) throws SQLException {
 
         String result = "";
@@ -495,6 +505,7 @@ public class DAO {
         return result;
     }
 
+    // getAdress2 permet d'obtenir l'addresse2 du client entré en paramètre
     public String getAdress2(int customer) throws SQLException {
 
         String result = "";
@@ -514,6 +525,7 @@ public class DAO {
         return result;
     }
 
+    // getCity permet d'obtenir la ville du client entré en paramètre
     public String getCity(int customer) throws SQLException {
 
         String result = "";
@@ -533,6 +545,7 @@ public class DAO {
         return result;
     }
 
+    // getState permet d'obtenir l'état dans lequel vit le client entré en paramètre
     public String getState(int customer) throws SQLException {
 
         String result = "";
@@ -552,6 +565,7 @@ public class DAO {
         return result;
     }
 
+    // getPhone permet d'obtenir le numéro de téléphone du client entré en paramètre
     public String getPhone(int customer) throws SQLException {
 
         String result = "";
@@ -571,6 +585,7 @@ public class DAO {
         return result;
     }
 
+    // getFax permet d'obtenir le fax du client entré en paramètre
     public String getFax(int customer) throws SQLException {
 
         String result = "";
@@ -590,6 +605,7 @@ public class DAO {
         return result;
     }
 
+    // getEmail permet d'obtenir l'email du client entré en paramètre
     public String getEmail(int customer) throws SQLException {
 
         String result = "";
@@ -609,7 +625,7 @@ public class DAO {
         return result;
     }
 
-    // getProductId permet de récupérer le product_id de la description du produit donnée
+    // getProductId permet de récupérer le product_id correspondant à la description du produit donnée en paramètre
     public int getProductId(String description) throws SQLException {
 
         int result = 0;
@@ -630,7 +646,7 @@ public class DAO {
     }
 
     // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
-    public double getPurchaseCost(String description) throws SQLException {
+    public double getPurchaseCostWithDescription(String description) throws SQLException {
 
         double result = 0.;
         String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE DESCRIPTION = ?";
@@ -673,15 +689,16 @@ public class DAO {
     }
     
     // modifyBonCommande permet de mofidier un bon de commande d'un client
-    public int modifyBonCommande(int num, int quantity) throws SQLException {
+    public int modifyBonCommande(int num, int quantity, String date) throws SQLException {
 
         int result = 0;
-        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ? WHERE ORDER_NUM = ?";
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ?, SALES_DATE = ? WHERE ORDER_NUM = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, quantity);
-            stmt.setInt(2, num);
+            stmt.setString(2, date);
+            stmt.setInt(3, num);
             result = stmt.executeUpdate();
         }
 
@@ -730,4 +747,6 @@ public class DAO {
         }
         return result;
     }
+    
+    
 }
