@@ -313,7 +313,19 @@ public class DAOTest {
         assertEquals(3,l2.size());
     }
     
-    //MODIFY
+    // testModifyBonCommande() teste la méthode modifyBonCommande() du DAO
+    @Test
+    public void testModifyBonCommande() throws SQLException {
+        int a = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 avant modification
+        String b = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 avant modification
+        assertEquals(10,a);
+        assertEquals("2011-05-24",b);
+        int r = myDAO.modifyBonCommande(10398001,20,"2011-01-01");
+        int a2 = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 après modification
+        String b2 = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 après modification
+        assertEquals(20,a2);
+        assertEquals("2011-01-01",b2);
+    }  
     
     
     // testDeleteBonCommande() teste la méthode deleteBonCommande()
@@ -329,7 +341,7 @@ public class DAOTest {
         assertEquals(2,l3.size());
     }
     
-    
+    //ModifyClient à faire
     
     
     public static DataSource getDataSource() throws SQLException {

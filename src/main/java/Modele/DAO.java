@@ -688,7 +688,7 @@ public class DAO {
         return result;
     }
     
-    // modifyBonCommande permet de mofidier un bon de commande d'un client
+    // modifyBonCommande permet de mofidier la quantité et la date du bon de commande entré en paramètre
     public int modifyBonCommande(int num, int quantity, String date) throws SQLException {
 
         int result = 0;
