@@ -34,14 +34,14 @@
                     ['${ca.nom}', ${ca.total}],
             </c:forEach>
                 ]);
-                var options3 = {backgroundColor:"#303030",legend: {textStyle: {color: 'white'}}};
+                var options3 = {backgroundColor: "#303030", legend: {textStyle: {color: 'white'}}};
 
                 // Instantiate and draw the chart.
                 var chart = new google.visualization.PieChart(document.getElementById('gProd'));
                 chart.draw(data, options3);
             }
         </script>
-        
+
         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ajoutProd" id="btnProd">Ajouter un produit</button>
         <br>
         <div id="ajoutProd" class="modal" tabindex="-1" role="dialog"  >
@@ -58,27 +58,38 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputNom">Nom</label> </div>
-                                    <input type="text" class="form-control" name="nom" aria-describedby="basic-addon1" required></div>
+                                <input type="text" class="form-control" name="nom" aria-describedby="basic-addon1" required></div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputQ">Quantité</label> </div>
-                                    <input type="text" class="form-control" name="quantite" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                                <input type="text" class="form-control" name="quantite" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputPrix">Prix</label> </div>
-                                    <input type="text" class="form-control" name="prix" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                                <input type="text" class="form-control" name="prix" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputMarkup">Markup</label> </div>
-                                    <input type="text" class="form-control" name="markup" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                                <input type="text" class="form-control" name="markup" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputCode">Code</label> </div>
-                                    <input type="text" class="form-control" name="code" aria-describedby="basic-addon1" required></div>
+                                    <select class="custom-select" id="choixCode" name="code" required>
+                                        <option selected>Choisir...</option>
+                                        <c:forEach var="ch" items="${choixCode}">
+                                            <option name="code" value="${ch}">${ch}</option>
+                                        </c:forEach>
+                                    </select>
+                            </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputF">Fabricant</label> </div>
-                                    <input type="text" class="form-control" name="fabricant" aria-describedby="basic-addon1" required></div>                                    
+                                    <label class="input-group-text" for="inputF">Fabricant</label> </div>   
+                                    <select class="custom-select" id="choixCode" name="manu" required>
+                                        <option selected>Choisir...</option>
+                                        <c:forEach var="ch" items="${choixManu}">
+                                            <option name="manu" value="${ch}">${ch}</option>
+                                        </c:forEach>
+                                    </select>                                   
                         </div>         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close1">Fermer</button>
@@ -87,8 +98,9 @@
                     </form>
                 </div>
             </div>
-        </div>               
-        
+        </div> 
+        </div>
+
         <script>
             var modal = document.getElementById('ajoutProd');
             var btn = document.getElementById("btnProd");
@@ -107,7 +119,7 @@
                 modal.style.display = "none";
             }
         </script>         
-        
+
         <br>
         <h4>Chiffre d'affaire selon les Etats</h4>
         <br>        
@@ -131,7 +143,7 @@
                 ]);
 
                 var options2 = {width: 600, height: 400, region: "US",
-                    resolution: "provinces",backgroundColor:"#303030",defaultColor: '#81d4fa',colorAxis: {colors: ['red', 'orange', 'yellow','yellowgreen','green']}};
+                    resolution: "provinces", backgroundColor: "#303030", defaultColor: '#81d4fa', colorAxis: {colors: ['red', 'orange', 'yellow', 'yellowgreen', 'green']}};
 
                 var chart = new google.visualization.GeoChart(document.getElementById('gState'));
 
@@ -141,8 +153,8 @@
         <br>
         <br>
         <br>
-         <h4>Chiffre d'affaire selon les clients</h4>
-                     
+        <h4>Chiffre d'affaire selon les clients</h4>
+
         <p <span id="gCli"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -169,7 +181,7 @@
                         title: 'City'
                     }
                 };
-                var options3 = {backgroundColor:"#303030",legend: {textStyle: {color: 'white'}},vAxis: {baselineColor: 'white'}};
+                var options3 = {backgroundColor: "#303030", legend: {textStyle: {color: 'white'}}, vAxis: {baselineColor: 'white'}};
                 var chart = new google.visualization.BarChart(document.getElementById('gCli'));
 
                 chart.draw(data, options3);

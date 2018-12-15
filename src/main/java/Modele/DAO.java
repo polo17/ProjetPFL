@@ -11,7 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -348,22 +349,6 @@ public class DAO {
 
         return result;
     }
-        
-    public int getMaxManuId() throws SQLException {
-        int result = 0;
-        String sql = "SELECT MAX(MANUFACTURER_ID) AS NUMBER FROM PRODUCT";
-
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-
-            if (rs.next()) {
-                result = rs.getInt("NUMBER");
-            }
-        }
-
-        return result;
-    }
          
     // getProducts_id permet d'obtenir la liste des product_ids de la table purchase_order 
     public List<Integer> getProducts_id() throws SQLException {
@@ -377,6 +362,39 @@ public class DAO {
             while (rs.next()) {
                 int pid = rs.getInt("PRODUCT_ID");
                 result.add(pid);
+            }
+        }
+        return result;
+    }
+    
+    
+    public List<String> getProductCodes() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
+
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String code = rs.getString("PROD_CODE");
+                result.add(code);
+            }
+        }
+        return result;
+    }
+    
+    public List<String> getManuNames() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT NAME FROM MANUFACTURER";
+
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("NAME");
+                result.add(name);
             }
         }
         return result;
@@ -491,6 +509,25 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 result = rs.getString("ZIP");
+            }
+        }
+
+        return result;
+    }
+    
+    public int getManuIdWithName(String name) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT MANUFACTURER_ID FROM MANUFACTURER WHERE NAME = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, name);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("MANUFACTURER_ID");
             }
         }
 
@@ -698,7 +735,7 @@ public class DAO {
     }
     
     // addBonCommande permet d'ajouter un bon de commande à un client
-    public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, String sales_date, String shipping_date, String company) throws SQLException {
+    public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, Date sales_date, Date shipping_date, String company) throws SQLException {
 
         int result = 0;
         String sql = "INSERT INTO PURCHASE_ORDER VALUES (?,?,?,?,?,?,?,?)";
@@ -710,8 +747,8 @@ public class DAO {
             stmt.setInt(3, product_id);
             stmt.setInt(4, quantity);
             stmt.setDouble(5, shipping_cost);
-            stmt.setString(6, sales_date);
-            stmt.setString(7, shipping_date);
+            stmt.setDate(6, sales_date);
+            stmt.setDate(7, shipping_date);
             stmt.setString(8, company);
 
             result = stmt.executeUpdate();

@@ -304,7 +304,7 @@ public class DAOTest {
     }
     
     // testaddBonCommande() teste la méthode addBonCommande() du DAO
-    @Test
+    @Test @Ignore
     public void testaddBonCommande() throws SQLException {
         List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant ajout
         assertEquals(2,l.size());
@@ -329,7 +329,7 @@ public class DAOTest {
     
     
     // testDeleteBonCommande() teste la méthode deleteBonCommande()
-    @Test 
+    @Test @Ignore
     public void testDeleteBonCommande() throws SQLException {
         List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant suppression
         assertEquals(2,l.size());

@@ -117,16 +117,16 @@ public class Controle extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
 
         int prod_id = dao.getMaxProdId() + 1;
-        int manu_id = 19955564;
+        
         String nom = request.getParameter("nom");
         int quantite = Integer.parseInt(request.getParameter("quantite"));
         int prix = Integer.parseInt(request.getParameter("prix"));
         int markup = Integer.parseInt(request.getParameter("markup"));
-        String code = "HW";
-        String fabricant = request.getParameter("fabricant");
+        String code = request.getParameter("code");
+        String fabricant = request.getParameter("manu");
+        int manu_id = dao.getManuIdWithName(fabricant);
+        
         String avaible = "TRUE";
-
-        String companie = "Poney Express";
 
         dao.addProduit(prod_id, manu_id, code, prix, quantite, markup, avaible, nom);
 
@@ -188,14 +188,14 @@ public class Controle extends HttpServlet {
         int customer_id = (Integer) session.getAttribute("custom_id");
         int product_id = dao.getProductId(nom);
         double prix = dao.getPurchaseCostWithDescription(nom);
-
-        Date actuelle = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dat = dateFormat.format(actuelle);
+        
+        java.util.Date d1 = new java.util.Date();
+        java.sql.Date d2 = new java.sql.Date(d1.getTime());
+        
 
         String companie = "Poney Express";
 
-        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix*0.004, dat, dat, companie);
+        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix*0.004, d2, d2, companie);
 
         pageClient(request, response);
     }
@@ -403,6 +403,14 @@ public class Controle extends HttpServlet {
             }
         }
 
+        List<String> codes = dao.getProductCodes();
+        
+        List<String> noms = dao.getManuNames();
+        
+        request.setAttribute("choixCode", codes);
+        
+        request.setAttribute("choixManu", noms);
+        
         request.setAttribute("chiffres", chiffres);
         request.setAttribute("chiffres_etat", chiffres_etat);
         request.setAttribute("chiffres_prod", chiffres_prod);

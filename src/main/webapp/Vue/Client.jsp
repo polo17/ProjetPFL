@@ -48,9 +48,9 @@
                             <div class="form-group">
                                 <label>Etat : </label><input type="text" name="etat" value="${etat}"></div>  
                             <div class="form-group">
-                                <label>Téléphone : </label><input type="text" name="telephone" value="${telephone}"></div>  
+                                <label>Téléphone : </label><input type="text" name="telephone" value="${telephone}" maxlength="12"></div>  
                             <div class="form-group">
-                                <label>Fax : </label><input type="text" name="fax" value="${fax}"></div>  
+                                <label>Fax : </label><input type="text" name="fax" value="${fax}" maxlength="12"></div>  
                             <div class="form-group">
                                 <label>Email : </label><input type="text" name="email" value="${email}"></div>
 
