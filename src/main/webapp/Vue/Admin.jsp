@@ -78,11 +78,11 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputF">Fabricant</label> </div>
-                                    <input type="text" class="form-control" name="fabricant" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>                                    
+                                    <input type="text" class="form-control" name="fabricant" aria-describedby="basic-addon1" required></div>                                    
                         </div>         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close1">Fermer</button>
-                            <input class="btn btn-dark" name="action" value="Ajouter" type="SUBMIT">
+                            <input class="btn btn-dark" name="action" value="AjouterProd" type="SUBMIT">
                         </div>
                     </form>
                 </div>

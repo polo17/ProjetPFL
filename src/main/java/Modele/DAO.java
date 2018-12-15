@@ -333,6 +333,38 @@ public class DAO {
         return result;
     }
     
+    public int getMaxProdId() throws SQLException {
+        int result = 0;
+        String sql = "SELECT MAX(PRODUCT_ID) AS NUMBER FROM PRODUCT";
+
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                result = rs.getInt("NUMBER");
+            }
+        }
+
+        return result;
+    }
+        
+    public int getMaxManuId() throws SQLException {
+        int result = 0;
+        String sql = "SELECT MAX(MANUFACTURER_ID) AS NUMBER FROM PRODUCT";
+
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                result = rs.getInt("NUMBER");
+            }
+        }
+
+        return result;
+    }
+         
     // getProducts_id permet d'obtenir la liste des product_ids de la table purchase_order 
     public List<Integer> getProducts_id() throws SQLException {
 
@@ -681,6 +713,28 @@ public class DAO {
             stmt.setString(6, sales_date);
             stmt.setString(7, shipping_date);
             stmt.setString(8, company);
+
+            result = stmt.executeUpdate();
+        }
+
+        return result;
+    }
+    
+    public int addProduit(int prod_id, int manu_id, String code, double prix, int quantite, double marking, String avaible, String description) throws SQLException {
+
+        int result = 0;
+        String sql = "INSERT INTO PRODUCT VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, prod_id);
+            stmt.setInt(2, manu_id);
+            stmt.setString(3, code);
+            stmt.setDouble(4, prix);
+            stmt.setDouble(5, quantite);
+            stmt.setDouble(6, marking);
+            stmt.setString(7, avaible);
+            stmt.setString(8, description);
 
             result = stmt.executeUpdate();
         }

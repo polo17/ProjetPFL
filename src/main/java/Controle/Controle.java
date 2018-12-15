@@ -44,6 +44,8 @@ public class Controle extends HttpServlet {
             showView("Connexion.jsp", request, response);
         } else if (actionIs(request, "Ajouter")) {
             ajoutCommande(request, response);
+        } else if (actionIs(request, "AjouterProd")) {
+            ajoutProduit(request, response);
         } else if (actionIs(request, "SupprimCommande")) {
             supprCommande(request, response);
         } else if (actionIs(request, "modifier")) {
@@ -54,6 +56,8 @@ public class Controle extends HttpServlet {
             showView("Connexion.jsp", request, response);
         }
     }
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthode pour l'initialisation d'une nouvelle connexion">
 
     /**
      * Sauvegarde le client connecté dans la session pour y afficher son espace client
@@ -95,6 +99,38 @@ public class Controle extends HttpServlet {
 
             showView("Connexion.jsp", request, response);
         }
+    }
+    
+    // </editor-fold>
+    
+    /***
+     * Fonction d'ajout d'un produit dans la base de données
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void ajoutProduit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        int prod_id = dao.getMaxProdId() + 1;
+        int manu_id = 19955564;
+        String nom = request.getParameter("nom");
+        int quantite = Integer.parseInt(request.getParameter("quantite"));
+        int prix = Integer.parseInt(request.getParameter("prix"));
+        int markup = Integer.parseInt(request.getParameter("markup"));
+        String code = "HW";
+        String fabricant = request.getParameter("fabricant");
+        String avaible = "TRUE";
+
+        String companie = "Poney Express";
+
+        dao.addProduit(prod_id, manu_id, code, prix, quantite, markup, avaible, nom);
+
+        pageAdmin(request, response);
     }
     
     // <editor-fold defaultstate="collapsed" desc="Méthode de modification d'un client">
@@ -159,7 +195,7 @@ public class Controle extends HttpServlet {
 
         String companie = "Poney Express";
 
-        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix, dat, dat, companie);
+        dao.addBonCommande(order_num, customer_id, product_id, quantite, prix*0.004, dat, dat, companie);
 
         pageClient(request, response);
     }
