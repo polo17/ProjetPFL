@@ -1,28 +1,56 @@
+body {
+    background: #303030;
+
+} 
+    
+h1{
+    text-align:center;
+    color : #4ff3b2;
+    font-family:"Verdana, Geneva, sans-serif";
+    font-size:500%;
+}
+
+h4{
+    text-align:center;
+    color : #7fdfd7;
+    font-family:"Verdana, Geneva, sans-serif";
+    font-size:200%;
+}
 
 #gProd {
-    width:300px;
+    width:900px;
     height:500px;
-
-   
+    margin-left: auto;
+    margin-right: auto;  
 }
 
 #gState {
-    width:200px;
-    height:300px;
-
-   
+    width:500px;
+    height:350px;
+    margin-left: auto;
+    margin-right: auto;  
 }
 
 #gCli {
-    width:300px;
+    width:900px;
     height:500px;
-
-   
+    margin-left: auto;
+    margin-right: auto; 
 }
 
-.col {
-    background : grey;
-    width:1000px;
+.modal {
+    display: none;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1;
+} 
+
+#btnProd {
+    background : #4ff3b2;
+    color:black;
+    margin: 0 auto;
+    display: block;
 }
+
+
 
 

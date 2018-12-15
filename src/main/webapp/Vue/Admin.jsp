@@ -16,10 +16,8 @@
     </head>
     <body>
         <h1>Statistiques des commandes</h1>
-
-        <div class="container">
-              <div class="row">
-                  <div class="col">
+        <br>
+        <h4>Chiffre d'affaire selon les produits</h4>
         <p <span id="gProd"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -36,17 +34,84 @@
                     ['${ca.nom}', ${ca.total}],
             </c:forEach>
                 ]);
-                var options3 = {title: "Chiffre d'affaire selon les produits"};
+                var options3 = {backgroundColor:"#303030",legend: {textStyle: {color: 'white'}}};
 
                 // Instantiate and draw the chart.
                 var chart = new google.visualization.PieChart(document.getElementById('gProd'));
                 chart.draw(data, options3);
             }
         </script>
-
-        </div>
-        <div class="col">          
-        <p <span id="gState"></span></p>
+        
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ajoutProd" id="btnProd">Ajouter un produit</button>
+        <br>
+        <div id="ajoutProd" class="modal" tabindex="-1" role="dialog"  >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajouter un produit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" id="close0">&times; </span>
+                        </button>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputNom">Nom</label> </div>
+                                    <input type="text" class="form-control" name="nom" aria-describedby="basic-addon1" required></div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputQ">Quantité</label> </div>
+                                    <input type="text" class="form-control" name="quantite" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputPrix">Prix</label> </div>
+                                    <input type="text" class="form-control" name="prix" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputMarkup">Markup</label> </div>
+                                    <input type="text" class="form-control" name="markup" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputCode">Code</label> </div>
+                                    <input type="text" class="form-control" name="code" aria-describedby="basic-addon1" required></div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputF">Fabricant</label> </div>
+                                    <input type="text" class="form-control" name="fabricant" aria-describedby="basic-addon1" pattern="[0-9]*" required></div>                                    
+                        </div>         
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close1">Fermer</button>
+                            <input class="btn btn-dark" name="action" value="Ajouter" type="SUBMIT">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>               
+        
+        <script>
+            var modal = document.getElementById('ajoutProd');
+            var btn = document.getElementById("btnProd");
+            var fermer0 = document.getElementById("close0");
+            var fermer1 = document.getElementById("close1");
+            //ouverture quand on clique sur le bouton
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+            //fermeture quand on clique sur la croix   
+            fermer0.onclick = function () {
+                modal.style.display = "none";
+            }
+            //fermeture quand on clique sur fermer   
+            fermer1.onclick = function () {
+                modal.style.display = "none";
+            }
+        </script>         
+        
+        <br>
+        <h4>Chiffre d'affaire selon les Etats</h4>
+        <br>        
+        <p <span id="gState" ></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
             google.charts.load('current', {
@@ -65,17 +130,19 @@
             </c:forEach>
                 ]);
 
-                var options2 = {title: "Chiffre d'affaire selon les Etats",width: 556, height: 347, region: "US", resolution: "provinces",backgroundColor: '#81d4fa'};
+                var options2 = {width: 600, height: 400, region: "US",
+                    resolution: "provinces",backgroundColor:"#303030",defaultColor: '#81d4fa',colorAxis: {colors: ['red', 'orange', 'yellow','yellowgreen','green']}};
 
                 var chart = new google.visualization.GeoChart(document.getElementById('gState'));
 
                 chart.draw(data, options2);
             }
         </script>
-
-        </div>
-                  <div class="col">       
-                  
+        <br>
+        <br>
+        <br>
+         <h4>Chiffre d'affaire selon les clients</h4>
+                     
         <p <span id="gCli"></span></p>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -102,15 +169,13 @@
                         title: 'City'
                     }
                 };
-
+                var options3 = {backgroundColor:"#303030",legend: {textStyle: {color: 'white'}},vAxis: {baselineColor: 'white'}};
                 var chart = new google.visualization.BarChart(document.getElementById('gCli'));
 
-                chart.draw(data, options);
+                chart.draw(data, options3);
             }
         </script>
-</div>  
-</div>
-            </div>
+
         <input type="date" id="start" name="name"
                value="selectDate"
                min="${minDate}" max="${maxDate}">

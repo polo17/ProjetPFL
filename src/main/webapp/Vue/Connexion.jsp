@@ -29,10 +29,11 @@
             <label for="mdp">Mot de passe</label>
                 <input type="password" class="form-control" id="mdp" pattern="[0-9]*" placeholder="Mot de passe" name="mdp" required>
             <br>
+            <a style="color:red">${erreur}</a>
                 <button type="submit" class="btn btn-dark" name="action" value="Connexion">Connexion</button>
           <br>
           </section>
-          <a style="color:red">${erreur}</a>
+          
         </form>
         </section>
     </body>
