@@ -780,7 +780,7 @@ public class DAO {
     }
     
     // modifyBonCommande permet de mofidier la quantité et la date du bon de commande entré en paramètre
-    public int modifyBonCommande(int num, int quantity, String date) throws SQLException {
+    public int modifyBonCommande(int num, int quantity, Date date) throws SQLException {
 
         int result = 0;
         String sql = "UPDATE PURCHASE_ORDER SET QUANTITY = ?, SALES_DATE = ? WHERE ORDER_NUM = ?";
@@ -788,7 +788,7 @@ public class DAO {
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, quantity);
-            stmt.setString(2, date);
+            stmt.setDate(2, date);
             stmt.setInt(3, num);
             result = stmt.executeUpdate();
         }

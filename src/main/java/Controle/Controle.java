@@ -227,11 +227,10 @@ public class Controle extends HttpServlet {
         int quant = Integer.parseInt(request.getParameter("quantite"));
         int order = Integer.parseInt(request.getParameter("orderm"));
         
-        Date actuelle = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dat = dateFormat.format(actuelle);
+        java.util.Date d1 = new java.util.Date();
+        java.sql.Date d2 = new java.sql.Date(d1.getTime());
         
-        dao.modifyBonCommande(order, quant, dat);
+        dao.modifyBonCommande(order, quant, d2);
 
         pageClient(request, response);
     }
