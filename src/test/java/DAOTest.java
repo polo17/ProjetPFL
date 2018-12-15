@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.After;
@@ -304,23 +307,30 @@ public class DAOTest {
     }
     
     // testaddBonCommande() teste la méthode addBonCommande() du DAO
-    @Test @Ignore
+    @Test
     public void testaddBonCommande() throws SQLException {
         List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant ajout
         assertEquals(2,l.size());
-        int r = myDAO.addBonCommande(10,2,980001,10,10.0,"2010-10-10","2010-10-10","10");
+        java.util.Date d1 = new java.util.Date();
+        java.sql.Date d2 = new java.sql.Date(d1.getTime());
+        int r = myDAO.addBonCommande(10,2,980001,10,10.0,d2,d2,"10");
         List<Integer> l2 = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 après ajout
         assertEquals(3,l2.size());
     }
     
     // testModifyBonCommande() teste la méthode modifyBonCommande() du DAO
-    @Test
-    public void testModifyBonCommande() throws SQLException {
+    @Test @Ignore
+    public void testModifyBonCommande() throws SQLException, ParseException {
         int a = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 avant modification
         String b = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 avant modification
         assertEquals(10,a);
         assertEquals("2011-05-24",b);
-        int r = myDAO.modifyBonCommande(10398001,20,"2011-01-01");
+        String s = "2011-05-24";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        Date d = sdf.parse(s);
+        java.sql.Date d2 = new java.sql.Date(d.getTime());
+        
+        int r = myDAO.modifyBonCommande(10398001,20,d2);
         int a2 = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 après modification
         String b2 = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 après modification
         assertEquals(20,a2);
@@ -329,11 +339,13 @@ public class DAOTest {
     
     
     // testDeleteBonCommande() teste la méthode deleteBonCommande()
-    @Test @Ignore
+    @Test
     public void testDeleteBonCommande() throws SQLException {
         List<Integer> l = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant suppression
         assertEquals(2,l.size());
-        int r1 = myDAO.addBonCommande(10,2,980001,10,10.0,"2010-10-10","2010-10-10","10");
+        java.util.Date d1 = new java.util.Date();
+        java.sql.Date d2 = new java.sql.Date(d1.getTime());
+        int r1 = myDAO.addBonCommande(10,2,980001,10,10.0,d2,d2,"10");
         List<Integer> l2 = myDAO.getQuantity(2); // liste des commandes passées par le customer_id 2 avant suppression et après ajout
         assertEquals(3,l2.size());
         int r2 = myDAO.deleteBonCommande(10);
