@@ -768,7 +768,7 @@ public class DAO {
             stmt.setInt(2, manu_id);
             stmt.setString(3, code);
             stmt.setDouble(4, prix);
-            stmt.setDouble(5, quantite);
+            stmt.setInt(5, quantite);
             stmt.setDouble(6, marking);
             stmt.setString(7, avaible);
             stmt.setString(8, description);
@@ -812,12 +812,11 @@ public class DAO {
     }
     
     // modifyClient permet de modifier un client
-    public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone,
-            String fax, String email, int id) throws SQLException {
+    public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone, String fax, String email, int credit_limit, String dc, int id) throws SQLException {
 
         int result = 0;
         String sql = "UPDATE CUSTOMER SET NAME = ?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE = ?"
-                + ", FAX = ?, EMAIL = ?, ZIP = ? WHERE CUSTOMER_ID = ?";
+                + ", FAX = ?, EMAIL = ?, ZIP = ?, CREDIT_LIMIT = ?, DISCOUNT_CODE = ?  WHERE CUSTOMER_ID = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -831,8 +830,9 @@ public class DAO {
             stmt.setString(7, fax);
             stmt.setString(8, email);
             stmt.setString(9, cp);
-            
-            stmt.setInt(10, id);
+            stmt.setInt(10, credit_limit);
+            stmt.setString(11, dc);
+            stmt.setInt(12, id);
 
             result = stmt.executeUpdate();
         }

@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.After;
@@ -318,23 +318,36 @@ public class DAOTest {
         assertEquals(3,l2.size());
     }
     
+    // testAddProduit() teste la méthode addProduit() du DAO
+    @Test
+    public void testAddProduit() throws SQLException {
+        List<String> l = myDAO.getDescriptions(); // liste des descriptions des produits avant ajout
+        assertEquals(3,l.size());
+        //java.util.Date d1 = new java.util.Date();
+        //java.sql.Date d2 = new java.sql.Date(d1.getTime());
+        int r = myDAO.addProduit(980002,19985678,"HW",180.50,50,6.20,"TRUE","Test");
+        List<String> l2 = myDAO.getDescriptions(); // liste des descriptions des produits après ajout
+        assertEquals(4,l2.size());
+    }
+    
     // testModifyBonCommande() teste la méthode modifyBonCommande() du DAO
-    @Test @Ignore
+    @Test
     public void testModifyBonCommande() throws SQLException, ParseException {
         int a = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 avant modification
         String b = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 avant modification
         assertEquals(10,a);
         assertEquals("2011-05-24",b);
-        String s = "2011-05-24";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-        Date d = sdf.parse(s);
-        java.sql.Date d2 = new java.sql.Date(d.getTime());
         
-        int r = myDAO.modifyBonCommande(10398001,20,d2);
+        String s="2013-01-01";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	java.util.Date date = sdf.parse(s);
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        
+        int r = myDAO.modifyBonCommande(10398001,20, sqlDate);
         int a2 = myDAO.getQuantity_p(10398001); // quantité de produits achetés dans le bon de commande 10398001 après modification
         String b2 = myDAO.getDates_p(10398001); // date d'achat correspondant au bon de commande 10398001 après modification
         assertEquals(20,a2);
-        assertEquals("2011-01-01",b2);
+        assertEquals("2013-01-01",b2);
     }  
     
     
@@ -353,7 +366,50 @@ public class DAOTest {
         assertEquals(2,l3.size());
     }
     
-    //ModifyClient à faire
+    // testModifyClient() teste la méthode modifyClient() du DAO
+    @Test
+    public void testModifyClient() throws SQLException, ParseException {
+        String n = myDAO.getName(1); // le nom du client ayant le customer_id 1
+        assertEquals("Jumbo Eagle Corp",n);
+        String a1 = myDAO.getAdress1(1); // l'adresse1 du customer_id 1
+        assertEquals("111 E. Las Olivas Blvd",a1);
+        String a2 = myDAO.getAdress2(1); // l'adresse2 du customer_id 1
+        assertEquals("Suite 51",a2);
+        String c = myDAO.getCity(1); // la ville du customer_id 1
+        assertEquals("Fort Lauderdale",c);
+        String s = myDAO.getState(1); // l'état du customer_id 1
+        assertEquals("FL",s);
+        String z = myDAO.getZip(1); // le code postal du customer_id 1
+        assertEquals("95117",z);
+        String p = myDAO.getPhone(1); // le numéro de téléphone du customer_id 1
+        assertEquals("305-555-0188",p);
+        String f = myDAO.getFax(1); // le numéro de fax du customer_id 1
+        assertEquals("305-555-0189",f);
+        String e = myDAO.getEmail(1); // l'email du customer_id 1
+        assertEquals("jumboeagle@example.com",e);
+        
+        int r = myDAO.modifyClient("Test1", "Test2", "Test3", "Test4", "CA", "95051", "000-000-0000", "111-111-1111", "test", 10000, "L", 1);
+        
+        String n2 = myDAO.getName(1); // vérification des modifications
+        assertEquals("Test1",n2);
+        String a1_2 = myDAO.getAdress1(1); 
+        assertEquals("Test2",a1_2);
+        String a2_2 = myDAO.getAdress2(1); 
+        assertEquals("Test3",a2_2);
+        String c2 = myDAO.getCity(1); 
+        assertEquals("Test4",c2);
+        String s2 = myDAO.getState(1); 
+        assertEquals("CA",s2);
+        String z2 = myDAO.getZip(1); 
+        assertEquals("95051",z2);
+        String p2 = myDAO.getPhone(1); 
+        assertEquals("000-000-0000",p2);
+        String f2 = myDAO.getFax(1); 
+        assertEquals("111-111-1111",f2);
+        String e2 = myDAO.getEmail(1); 
+        assertEquals("test",e2);
+        
+    }
     
     
     public static DataSource getDataSource() throws SQLException {
