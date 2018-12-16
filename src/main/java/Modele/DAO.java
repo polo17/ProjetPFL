@@ -811,6 +811,44 @@ public class DAO {
         return result;
     }
     
+    public String getDiscountCode(int id) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT DISCOUNT_CODE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("DISCOUNT_CODE");
+            }
+        }
+
+        return result;
+    }
+        
+    public int getCreditLimit(int id) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT CREDIT_LIMIT FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("CREDIT_LIMIT");
+            }
+        }
+
+        return result;
+    }
+    
     // modifyClient permet de modifier un client
     public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone, String fax, String email, int credit_limit, String dc, int id) throws SQLException {
 

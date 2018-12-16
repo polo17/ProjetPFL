@@ -103,6 +103,8 @@ public class Controle extends HttpServlet {
     
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Méthodes pour l'ajout et modification de produits dans la base de donnée">
+    
     /***
      * Fonction d'ajout d'un produit dans la base de données
      * @param request
@@ -133,6 +135,38 @@ public class Controle extends HttpServlet {
         pageAdmin(request, response);
     }
     
+        /***
+     * Fonction de modification d'un produit dans la base de données
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void modifierProduit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+        int prod_id = dao.getMaxProdId() + 1;
+        
+        String nom = request.getParameter("nom");
+        int quantite = Integer.parseInt(request.getParameter("quantite"));
+        int prix = Integer.parseInt(request.getParameter("prix"));
+        int markup = Integer.parseInt(request.getParameter("markup"));
+        String code = request.getParameter("code");
+        String fabricant = request.getParameter("manu");
+        int manu_id = dao.getManuIdWithName(fabricant);
+        
+        String avaible = "TRUE";
+
+        dao.addProduit(prod_id, manu_id, code, prix, quantite, markup, avaible, nom);
+
+        pageAdmin(request, response);
+    }
+    
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Méthode de modification d'un client">
     
     /***
@@ -159,8 +193,11 @@ public class Controle extends HttpServlet {
         String telephone = request.getParameter("telephone");
         String fax = request.getParameter("fax");
         String email = request.getParameter("email");
+        
+        int credit = dao.getCreditLimit(id);
+        String discount = dao.getDiscountCode(id);
 
-        dao.modifyClient(nom, adresse, complement, ville, etat, cp, telephone, fax, email, id);
+        dao.modifyClient(nom, adresse, complement, ville, etat, cp, telephone, fax, email,credit,discount, id);
 
         pageClient(request, response);
     }
