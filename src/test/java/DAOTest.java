@@ -366,6 +366,20 @@ public class DAOTest {
         assertEquals(2,l3.size());
     }
     
+    // testGetDiscountCode() teste la méthode getDiscountCode() du DAO
+    @Test
+    public void testGetDiscountCode() throws SQLException {
+        String s = myDAO.getDiscountCode(1); // pour le customer_id 1
+        assertEquals("N",s);
+    }
+    
+    // testGetCreditLimit() teste la méthode getCreditLimit() du DAO
+    @Test
+    public void testGetCreditLimit() throws SQLException {
+        int r = myDAO.getCreditLimit(1); // pour le customer_id 1
+        assertEquals(100000,r);
+    }
+    
     // testModifyClient() teste la méthode modifyClient() du DAO
     @Test
     public void testModifyClient() throws SQLException, ParseException {

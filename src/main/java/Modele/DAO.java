@@ -811,6 +811,7 @@ public class DAO {
         return result;
     }
     
+    // getDiscountCode permet d'obtenir le Discount_code d'un client
     public String getDiscountCode(int id) throws SQLException {
 
         String result = "";
@@ -829,7 +830,8 @@ public class DAO {
 
         return result;
     }
-        
+    
+    // getCreditLimit permet d'obtenir la limite de crédit d'un client
     public int getCreditLimit(int id) throws SQLException {
 
         int result = 0;
