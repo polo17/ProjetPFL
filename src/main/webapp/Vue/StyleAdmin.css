@@ -2,7 +2,7 @@ body {
     background: #303030;
 
 } 
-    
+
 h1{
     text-align:center;
     color : #4ff3b2;
@@ -51,6 +51,22 @@ h4{
     display: block;
 }
 
+#decon {
+    background : yellow;
+    color:black;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 1%;
+}
 
+#start {
+    margin: 0 auto;
+    display: block;
+}
 
-
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;  
+}

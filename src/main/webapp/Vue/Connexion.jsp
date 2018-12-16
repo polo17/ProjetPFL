@@ -19,22 +19,22 @@
         <h1>Veuillez vous connecter</h1>
         <br><br>
         <section id="bullesup">
-        <form class="form-signin" method="POST">
-          <section id="bulle">
-          <div class="form-group">
-            <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" placeholder="Entrez votre email" name="email" required autofocus>  
-          </div>
-          <div class="form-group">
-            <label for="mdp">Mot de passe</label>
-                <input type="password" class="form-control" id="mdp" pattern="[0-9]*" placeholder="Mot de passe" name="mdp" required>
-            <br>
-            <a style="color:red">${erreur}</a>
-                <button type="submit" class="btn btn-dark" name="action" value="Connexion">Connexion</button>
-          <br>
-          </section>
-          
-        </form>
+            <form class="form-signin" method="POST">
+                <section id="bulle">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="Entrez votre email" name="email" required autofocus>  
+                    </div>
+                    <div class="form-group">
+                        <label for="mdp">Mot de passe</label>
+                        <input type="password" class="form-control" id="mdp" pattern="[0-9]*" placeholder="Mot de passe" name="mdp" required>
+                        <br>
+                        <a style="color:red">${erreur}</a>
+                        <button type="submit" class="btn btn-dark" name="action" value="Connexion">Connexion</button>
+                    </div>    
+                <br>
+                </section>
+            </form>
         </section>
     </body>
 </html>

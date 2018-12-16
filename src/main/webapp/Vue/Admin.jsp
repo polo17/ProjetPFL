@@ -74,127 +74,129 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputCode">Code</label> </div>
-                                    <select class="custom-select" id="choixCode" name="code" required>
-                                        <option selected>Choisir...</option>
-                                        <c:forEach var="ch" items="${choixCode}">
-                                            <option name="code" value="${ch}">${ch}</option>
-                                        </c:forEach>
-                                    </select>
+                                <select class="custom-select" id="choixCode" name="code" required>
+                                    <option selected>Choisir...</option>
+                                    <c:forEach var="ch" items="${choixCode}">
+                                        <option name="code" value="${ch}">${ch}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputF">Fabricant</label> </div>   
-                                    <select class="custom-select" id="choixCode" name="manu" required>
-                                        <option selected>Choisir...</option>
-                                        <c:forEach var="ch" items="${choixManu}">
-                                            <option name="manu" value="${ch}">${ch}</option>
-                                        </c:forEach>
-                                    </select>                                   
-                        </div>         
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close1">Fermer</button>
-                            <input class="btn btn-dark" name="action" value="AjouterProd" type="SUBMIT">
-                        </div>
+                                <select class="custom-select" id="choixCode" name="manu" required>
+                                    <option selected>Choisir...</option>
+                                    <c:forEach var="ch" items="${choixManu}">
+                                        <option name="manu" value="${ch}">${ch}</option>
+                                    </c:forEach>
+                                </select>                                   
+                            </div>         
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close1">Fermer</button>
+                                <button type="SUBMIT" class="btn btn-dark" name="action" value="AjouterProd" >Ajouter</button>
+                            </div>
                     </form>
                 </div>
             </div>
         </div> 
-        </div>
+    </div>
 
-        <script>
-            var modal = document.getElementById('ajoutProd');
-            var btn = document.getElementById("btnProd");
-            var fermer0 = document.getElementById("close0");
-            var fermer1 = document.getElementById("close1");
-            //ouverture quand on clique sur le bouton
-            btn.onclick = function () {
-                modal.style.display = "block";
-            }
-            //fermeture quand on clique sur la croix   
-            fermer0.onclick = function () {
-                modal.style.display = "none";
-            }
-            //fermeture quand on clique sur fermer   
-            fermer1.onclick = function () {
-                modal.style.display = "none";
-            }
-        </script>         
+    <script>
+        var modal = document.getElementById('ajoutProd');
+        var btn = document.getElementById("btnProd");
+        var fermer0 = document.getElementById("close0");
+        var fermer1 = document.getElementById("close1");
+        //ouverture quand on clique sur le bouton
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+        //fermeture quand on clique sur la croix   
+        fermer0.onclick = function () {
+            modal.style.display = "none";
+        }
+        //fermeture quand on clique sur fermer   
+        fermer1.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>         
 
-        <br>
-        <h4>Chiffre d'affaire selon les Etats</h4>
-        <br>        
-        <p <span id="gState" ></span></p>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            google.charts.load('current', {
-                'packages': ['geochart'],
-                // Note: you will need to get a mapsApiKey for your project.
-                // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-                'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-            });
-            google.charts.setOnLoadCallback(drawRegionsMap);
+    <br>
+    <h4>Chiffre d'affaire selon les Etats</h4>
+    <br>        
+    <p <span id="gState" ></span></p>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
 
-            function drawRegionsMap() {
-                var data = google.visualization.arrayToDataTable([
-                    ['State', 'Foo Factor'],
-            <c:forEach var="ca" items="${chiffres_etat}">
-                    ['${ca.nom}', ${ca.total}],
-            </c:forEach>
-                ]);
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['State', 'Chiffre'],
+        <c:forEach var="ca" items="${chiffres_etat}">
+                ['${ca.nom}', ${ca.total}],
+        </c:forEach>
+            ]);
 
-                var options2 = {width: 600, height: 400, region: "US",
-                    resolution: "provinces", backgroundColor: "#303030", defaultColor: '#81d4fa', colorAxis: {colors: ['red', 'orange', 'yellow', 'yellowgreen', 'green']}};
+            var options2 = {width: 600, height: 400, region: "US",
+                resolution: "provinces", backgroundColor: "#303030", defaultColor: '#81d4fa', colorAxis: {colors: ['red', 'yellow', 'green']}};
 
-                var chart = new google.visualization.GeoChart(document.getElementById('gState'));
+            var chart = new google.visualization.GeoChart(document.getElementById('gState'));
 
-                chart.draw(data, options2);
-            }
-        </script>
-        <br>
-        <br>
-        <br>
-        <h4>Chiffre d'affaire selon les clients</h4>
+            chart.draw(data, options2);
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <h4>Chiffre d'affaire selon les clients</h4>
 
-        <p <span id="gCli"></span></p>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            google.charts.load('current', {packages: ['corechart', 'bar']});
-            google.charts.setOnLoadCallback(drawBasic);
+    <p <span id="gCli"></span></p>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawBasic);
 
-            function drawBasic() {
+        function drawBasic() {
 
-                var data = google.visualization.arrayToDataTable([
-                    ['City', '2010 Population', ],
-            <c:forEach var="ca" items="${chiffres}">
-                    ['${ca.nom}', ${ca.total}],
-            </c:forEach>
-                ]);
+            var data = google.visualization.arrayToDataTable([
+                ['Client', "Chiffre d'affaire", ],
+        <c:forEach var="ca" items="${chiffres}">
+                ['${ca.nom}', ${ca.total}],
+        </c:forEach>
+            ]);
 
-                var options = {
-                    title: "Chiffre d'affaire selon les clients",
-                    chartArea: {width: '50%'},
-                    hAxis: {
-                        title: 'Total Population',
-                        minValue: 0
-                    },
-                    vAxis: {
-                        title: 'City'
-                    }
-                };
-                var options3 = {backgroundColor: "#303030", legend: {textStyle: {color: 'white'}}, vAxis: {baselineColor: 'white'}};
-                var chart = new google.visualization.BarChart(document.getElementById('gCli'));
+            var options = {
+                title: "Chiffre d'affaire selon les clients",
+                chartArea: {width: '50%'},
+                hAxis: {
+                    title: 'Total Population',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'City'
+                }
+            };
+            var options3 = {backgroundColor: "#303030", legend: {textStyle: {color: 'white'}}, hAxis: {textStyle: {color: 'white'}}, vAxis: {textStyle: {color: 'white'}}};
+            var chart = new google.visualization.BarChart(document.getElementById('gCli'));
 
-                chart.draw(data, options3);
-            }
-        </script>
-
+            chart.draw(data, options3);
+        }
+    </script>
+    <br>
+    <footer>
         <input type="date" id="start" name="name"
                value="selectDate"
                min="${minDate}" max="${maxDate}">
-
-
+        <br>
+        <br>
         <form method="POST">
-            <input name="action" value="Déconnexion" type="SUBMIT">
+            <input class="btn btn-dark" id="decon" name="action" value="Déconnexion" type="SUBMIT">
         </form> 
-    </body>
+    </footer>
+</body>
 </html>

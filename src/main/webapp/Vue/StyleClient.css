@@ -1,6 +1,6 @@
 body {
     background: #303030;
-    } 
+} 
 
 h1{
     text-align:center;
@@ -37,7 +37,7 @@ table {
 }
 
 td {
-  vertical-align: center;
+    vertical-align: center;
 }
 
 #btnModif {
@@ -70,6 +70,6 @@ footer {
 }
 
 th, td {
-  padding: 5px;
+    padding: 5px;
 }
 

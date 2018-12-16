@@ -13,7 +13,7 @@ h1{
 .btn-dark:hover {
     background: black;
 }
- 
+
 .form-signin {   
     border: 10px red;
     border-radius: 50%;
@@ -28,7 +28,7 @@ h1{
 }
 
 .form-group {  
-    
+
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -37,7 +37,7 @@ h1{
 #bulle {
     position:relative;
     top:15%;
-      
+
 }
 
 #bullesup {
@@ -49,14 +49,5 @@ h1{
     vertical-align: middle;
     background: #7fdfd7;
     padding:9px;
-  
+
 }
-
-
-/*
-bleu foncé: #112F3B
-bleu moyen: #2B7379
-bleu clair: #6BBAB5
-beige clair: #FAE3D6
-beige foncé: #E3CCBD
-*/

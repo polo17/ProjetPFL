@@ -12,16 +12,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="Vue/StyleClient.css">
-
-        <title>Page Client</title>
-    </head>
-    <body>
         <h1>Mon espace Client</h1>
         <br>
         <br>
         <button type="SUBMIT" class="btn btn-dark" data-toggle="modal" data-target="#modifClient" id="btnModif">Modifier mes données</button>
         <br><br>
 
+
+        <title>Page Client</title>
+    </head>
+    <body>
         <div id="modifClient" class="modal" tabindex="-1" role="dialog"  >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -104,7 +104,7 @@
                         <form method = "POST">
                             <input type="text" class="form-control" name="quantite" size="4" aria-describedby="basic-addon1" pattern="[0-9]*" value="${prod.quantite}">
                             <td>   <button type="submit" class="btn btn-dark" id="${status.getIndex()}" name="action" value="modifier">modifier</button>
-                            <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
+                                <input id="prodId" name="orderm" type="hidden" value="${prod.order}">
                         </form>
                     </td>
                     <td>${prod.prix}</td>
@@ -182,14 +182,11 @@
                 modala.style.display = "none";
             }
         </script>        
-
-
         <br><br>
         <footer>
-        <form method="POST">
-            <input class="btn btn-dark" id="deco" name="action" value="Déconnexion" type="SUBMIT">
-        </form>
-            </footer>
+            <form method="POST">
+                <input class="btn btn-dark" id="deco" name="action" value="Déconnexion" type="SUBMIT">
+            </form>
+        </footer>
     </body>
 </html>
-
