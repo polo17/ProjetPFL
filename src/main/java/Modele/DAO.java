@@ -29,6 +29,8 @@ public class DAO {
         this.myDataSource = dataSource;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant la table Customer">
+    
     // getEmails permet d'obtenir la liste de tous les emails des clients
     public List<String> getEmails() throws SQLException {
 
@@ -47,7 +49,7 @@ public class DAO {
         return result;
 
     }
-
+    
     // getCustomerIds permet d'obtenir la liste de tous les customer_ids des clients
     public List<Integer> getCustomerIds() throws SQLException {
 
@@ -60,44 +62,6 @@ public class DAO {
             while (rs.next()) {
                 int customer_id = rs.getInt("CUSTOMER_ID");
                 result.add(customer_id);
-            }
-        }
-
-        return result;
-    }
-
-    // getProductDescription permet d'obtenir la liste des descriptions des produits du client entré en paramètre
-    public List<String> getProductDescription(int customer_id) throws SQLException {
-
-        List<String> result = new LinkedList<>();
-        String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, customer_id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String nom = rs.getString("DESCRIPTION");
-                result.add(nom);
-            }
-        }
-
-        return result;
-    }
-
-    // getPurchaseCost permet d'obtenir la liste des prix d'achat des produits achetés par le client entré en paramètre
-    public List<Double> getPurchaseCost(int customer_id) throws SQLException {
-
-        List<Double> result = new LinkedList<>();
-        String sql = "SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, customer_id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                double price = rs.getInt("Purchase_Cost");
-                result.add(price);
             }
         }
 
@@ -121,7 +85,398 @@ public class DAO {
 
         return result;
     }
+    
+    // getDescription_pid permet d'obtenir la description du produit correspondant au produit entré en paramètre
+    public String getDescription_pid(int pid) throws SQLException {
 
+        String result = "";
+        String sql = "SELECT DESCRIPTION FROM product WHERE PRODUCT_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, pid);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("DESCRIPTION");
+            }  
+        }
+
+        return result;
+    }
+    
+    // getStates permet d'obtenir la liste des états des clients 
+    public List<String> getStates() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT STATE FROM CUSTOMER";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String state = rs.getString("STATE");
+                result.add(state);
+            }
+        }
+
+        return result;
+    }
+    
+    // getCustomer_s permet d'obtenir la liste des customer_ids vivant dans l'état entré en paramètre
+    public List<Integer> getCustomer_s(String state) throws SQLException {
+
+        List<Integer> result = new LinkedList<>();
+        String sql = "SELECT CUSTOMER_ID FROM CUSTOMER WHERE STATE = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, state);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt("CUSTOMER_ID");
+                result.add(cid);
+            }
+        }
+
+        return result;
+    }
+    
+    // getZip permet d'obtenir le code postal du client entré en paramètre
+    public String getZip(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT ZIP FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("ZIP");
+            }
+        }
+
+        return result;
+    }
+    
+    // getZip permet d'obtenir le nom du client entré en paramètre
+    public String getName(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT NAME AS NOM FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("NOM");
+            }
+        }
+
+        return result;
+    }
+    
+    // getCity permet d'obtenir la ville du client entré en paramètre
+    public String getCity(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT CITY FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("CITY");
+            }
+        }
+
+        return result;
+    }
+    
+    // getAdress1 permet d'obtenir l'addresse1 du client entré en paramètre
+    public String getAdress1(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT ADDRESSLINE1 FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("ADDRESSLINE1");
+            }
+        }
+
+        return result;
+    }
+
+    // getAdress2 permet d'obtenir l'addresse2 du client entré en paramètre
+    public String getAdress2(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT ADDRESSLINE2 FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("ADDRESSLINE2");
+            }
+        }
+
+        return result;
+    }
+
+    // getState permet d'obtenir l'état dans lequel vit le client entré en paramètre
+    public String getState(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT STATE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("STATE");
+            }
+        }
+
+        return result;
+    }
+
+    // getPhone permet d'obtenir le numéro de téléphone du client entré en paramètre
+    public String getPhone(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT PHONE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("PHONE");
+            }
+        }
+
+        return result;
+    }
+
+    // getFax permet d'obtenir le fax du client entré en paramètre
+    public String getFax(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT FAX FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("FAX");
+            }
+        }
+
+        return result;
+    }
+
+    // getEmail permet d'obtenir l'email du client entré en paramètre
+    public String getEmail(int customer) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, customer);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("EMAIL");
+            }
+        }
+
+        return result;
+    }
+    
+    // getDiscountCode permet d'obtenir le Discount_code d'un client
+    public String getDiscountCode(int id) throws SQLException {
+
+        String result = "";
+        String sql = "SELECT DISCOUNT_CODE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getString("DISCOUNT_CODE");
+            }
+        }
+
+        return result;
+    }
+    
+    // getCreditLimit permet d'obtenir la limite de crédit d'un client
+    public int getCreditLimit(int id) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT CREDIT_LIMIT FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("CREDIT_LIMIT");
+            }
+        }
+
+        return result;
+    }
+    
+    // modifyClient permet de modifier un client
+    public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone, String fax, String email, int credit_limit, String dc, int id) throws SQLException {
+
+        int result = 0;
+        String sql = "UPDATE CUSTOMER SET NAME = ?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE = ?"
+                + ", FAX = ?, EMAIL = ?, ZIP = ?, CREDIT_LIMIT = ?, DISCOUNT_CODE = ?  WHERE CUSTOMER_ID = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
+            stmt.setString(1, nom);
+            stmt.setString(2, adresse);
+            stmt.setString(3, complement);
+            stmt.setString(4, ville);
+            stmt.setString(5, etat);
+            stmt.setString(6, phone);
+            stmt.setString(7, fax);
+            stmt.setString(8, email);
+            stmt.setString(9, cp);
+            stmt.setInt(10, credit_limit);
+            stmt.setString(11, dc);
+            stmt.setInt(12, id);
+
+            result = stmt.executeUpdate();
+        }
+        return result;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant la table Product">
+    
+    // getMaxProdId permet d'obtenir le produit ayant le product_id le plus grand
+    public int getMaxProdId() throws SQLException {
+        int result = 0;
+        String sql = "SELECT MAX(PRODUCT_ID) AS NUMBER FROM PRODUCT";
+
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                result = rs.getInt("NUMBER");
+            }
+        }
+
+        return result;
+    }
+    
+    // getProductId permet de récupérer le product_id correspondant à la description du produit donnée en paramètre
+    public int getProductId(String description) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT PRODUCT_ID AS ID FROM PRODUCT WHERE DESCRIPTION = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, description);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("ID");
+            }
+        }
+
+        return result;
+    }
+
+    // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
+    public double getPurchaseCostWithDescription(String description) throws SQLException {
+
+        double result = 0.;
+        String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE DESCRIPTION = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, description);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getDouble("COST");
+            }
+        }
+
+        return result;
+    }
+    
+    // addProduit permet d'ajouter un produit à la table Product
+    public int addProduit(int prod_id, int manu_id, String code, double prix, int quantite, double marking, String avaible, String description) throws SQLException {
+
+        int result = 0;
+        String sql = "INSERT INTO PRODUCT VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, prod_id);
+            stmt.setInt(2, manu_id);
+            stmt.setString(3, code);
+            stmt.setDouble(4, prix);
+            stmt.setInt(5, quantite);
+            stmt.setDouble(6, marking);
+            stmt.setString(7, avaible);
+            stmt.setString(8, description);
+
+            result = stmt.executeUpdate();
+        }
+
+        return result;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant la table Purchase_Order">
+    
     // getDates permet d'obtenir la liste des dates de vente des produits achetés par le client entré en paramètre
     public List<String> getDates(int customer_id) throws SQLException {
 
@@ -240,25 +595,6 @@ public class DAO {
         return result;
     }
     
-    // getPurchaseCost_p permet d'obtenir le prix d'achat du produit correspondant au bon de commande entré en paramètre
-    public double getPurchaseCost_p(int order) throws SQLException {
-
-        double result = 0;
-        String sql = "SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, order);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getInt("Purchase_Cost");
-            }
-            
-        }
-        return result;
-    }
-    
     // getDates_p permet d'obtenir la date de vente du produit correspondant au bon de commande entré en paramètre
     public String getDates_p(int order) throws SQLException {
 
@@ -281,62 +617,10 @@ public class DAO {
         return result;
     }
     
-    // getDescription_p permet d'obtenir la description du produit correspondant au bon de commande entré en paramètre
-    public String getDescription_p(int order) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, order);
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("DESCRIPTION");
-            }  
-        }
-
-        return result;
-    }
-    
-    // getDescription_pid permet d'obtenir la description du produit correspondant au produit entré en paramètre
-    public String getDescription_pid(int pid) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT DESCRIPTION FROM product WHERE PRODUCT_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, pid);
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("DESCRIPTION");
-            }  
-        }
-
-        return result;
-    }
-
     // getMaxOrderNum permet d'obtenir le numéro de bon commande maximal dans la table des bons de commandes
     public int getMaxOrderNum() throws SQLException {
         int result = 0;
         String sql = "SELECT MAX(ORDER_NUM) AS NUMBER FROM PURCHASE_ORDER";
-
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-
-            if (rs.next()) {
-                result = rs.getInt("NUMBER");
-            }
-        }
-
-        return result;
-    }
-    
-    public int getMaxProdId() throws SQLException {
-        int result = 0;
-        String sql = "SELECT MAX(PRODUCT_ID) AS NUMBER FROM PRODUCT";
 
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
@@ -364,76 +648,6 @@ public class DAO {
                 result.add(pid);
             }
         }
-        return result;
-    }
-    
-    
-    public List<String> getProductCodes() throws SQLException {
-
-        List<String> result = new LinkedList<>();
-        String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
-
-        try (Connection connection = myDataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String code = rs.getString("PROD_CODE");
-                result.add(code);
-            }
-        }
-        return result;
-    }
-    
-    public List<String> getManuNames() throws SQLException {
-
-        List<String> result = new LinkedList<>();
-        String sql = "SELECT NAME FROM MANUFACTURER";
-
-        try (Connection connection = myDataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String name = rs.getString("NAME");
-                result.add(name);
-            }
-        }
-        return result;
-    }
-    
-    // getStates permet d'obtenir la liste des états des clients 
-    public List<String> getStates() throws SQLException {
-
-        List<String> result = new LinkedList<>();
-        String sql = "SELECT STATE FROM CUSTOMER";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String state = rs.getString("STATE");
-                result.add(state);
-            }
-        }
-
-        return result;
-    }
-    
-    // getCustomer_s permet d'obtenir la liste des customer_ids vivant dans l'état entré en paramètre
-    public List<Integer> getCustomer_s(String state) throws SQLException {
-
-        List<Integer> result = new LinkedList<>();
-        String sql = "SELECT CUSTOMER_ID FROM CUSTOMER WHERE STATE = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, state);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                int cid = rs.getInt("CUSTOMER_ID");
-                result.add(cid);
-            }
-        }
-
         return result;
     }
     
@@ -494,245 +708,6 @@ public class DAO {
 
         return result;
     }
-
-    // getZip permet d'obtenir le code postal du client entré en paramètre
-    public String getZip(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT ZIP FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("ZIP");
-            }
-        }
-
-        return result;
-    }
-    
-    public int getManuIdWithName(String name) throws SQLException {
-
-        int result = 0;
-        String sql = "SELECT MANUFACTURER_ID FROM MANUFACTURER WHERE NAME = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, name);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getInt("MANUFACTURER_ID");
-            }
-        }
-
-        return result;
-    }
-    
-    // getZip permet d'obtenir le nom du client entré en paramètre
-    public String getName(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT NAME AS NOM FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("NOM");
-            }
-        }
-
-        return result;
-    }
-
-    // getAdress1 permet d'obtenir l'addresse1 du client entré en paramètre
-    public String getAdress1(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT ADDRESSLINE1 FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("ADDRESSLINE1");
-            }
-        }
-
-        return result;
-    }
-
-    // getAdress2 permet d'obtenir l'addresse2 du client entré en paramètre
-    public String getAdress2(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT ADDRESSLINE2 FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("ADDRESSLINE2");
-            }
-        }
-
-        return result;
-    }
-
-    // getCity permet d'obtenir la ville du client entré en paramètre
-    public String getCity(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT CITY FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("CITY");
-            }
-        }
-
-        return result;
-    }
-
-    // getState permet d'obtenir l'état dans lequel vit le client entré en paramètre
-    public String getState(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT STATE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("STATE");
-            }
-        }
-
-        return result;
-    }
-
-    // getPhone permet d'obtenir le numéro de téléphone du client entré en paramètre
-    public String getPhone(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT PHONE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("PHONE");
-            }
-        }
-
-        return result;
-    }
-
-    // getFax permet d'obtenir le fax du client entré en paramètre
-    public String getFax(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT FAX FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("FAX");
-            }
-        }
-
-        return result;
-    }
-
-    // getEmail permet d'obtenir l'email du client entré en paramètre
-    public String getEmail(int customer) throws SQLException {
-
-        String result = "";
-        String sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, customer);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getString("EMAIL");
-            }
-        }
-
-        return result;
-    }
-
-    // getProductId permet de récupérer le product_id correspondant à la description du produit donnée en paramètre
-    public int getProductId(String description) throws SQLException {
-
-        int result = 0;
-        String sql = "SELECT PRODUCT_ID AS ID FROM PRODUCT WHERE DESCRIPTION = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, description);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getInt("ID");
-            }
-        }
-
-        return result;
-    }
-
-    // getPurchaseCost permet de récupérer le purchase_cost de la description du produit donnée
-    public double getPurchaseCostWithDescription(String description) throws SQLException {
-
-        double result = 0.;
-        String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE DESCRIPTION = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, description);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getDouble("COST");
-            }
-        }
-
-        return result;
-    }
     
     // addBonCommande permet d'ajouter un bon de commande à un client
     public int addBonCommande(int order_num, int customer_id, int product_id, int quantity, double shipping_cost, Date sales_date, Date shipping_date, String company) throws SQLException {
@@ -750,28 +725,6 @@ public class DAO {
             stmt.setDate(6, sales_date);
             stmt.setDate(7, shipping_date);
             stmt.setString(8, company);
-
-            result = stmt.executeUpdate();
-        }
-
-        return result;
-    }
-    
-    public int addProduit(int prod_id, int manu_id, String code, double prix, int quantite, double marking, String avaible, String description) throws SQLException {
-
-        int result = 0;
-        String sql = "INSERT INTO PRODUCT VALUES (?,?,?,?,?,?,?,?)";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, prod_id);
-            stmt.setInt(2, manu_id);
-            stmt.setString(3, code);
-            stmt.setDouble(4, prix);
-            stmt.setInt(5, quantite);
-            stmt.setDouble(6, marking);
-            stmt.setString(7, avaible);
-            stmt.setString(8, description);
 
             result = stmt.executeUpdate();
         }
@@ -811,73 +764,146 @@ public class DAO {
         return result;
     }
     
-    // getDiscountCode permet d'obtenir le Discount_code d'un client
-    public String getDiscountCode(int id) throws SQLException {
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant la table Manufacturer">
+    
+    // getManuNames permet d'obtenir la liste des noms des entreprises de production
+    public List<String> getManuNames() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT NAME FROM MANUFACTURER";
+
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("NAME");
+                result.add(name);
+            }
+        }
+        return result;
+    }
+    
+    // getManuIdWithName pertmet d'obtenir l'ID de l'entreprise correspondant au nom entré en paramètre
+    public int getManuIdWithName(String name) throws SQLException {
+
+        int result = 0;
+        String sql = "SELECT MANUFACTURER_ID FROM MANUFACTURER WHERE NAME = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, name);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("MANUFACTURER_ID");
+            }
+        }
+
+        return result;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant la table Product_Code">
+    
+    // getProductCodes permet d'obtenir la liste des codes produit de la table Product_code
+    public List<String> getProductCodes() throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
+
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String code = rs.getString("PROD_CODE");
+                result.add(code);
+            }
+        }
+        return result;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Méthodes concernant des jointures">
+    
+    // getProductDescription permet d'obtenir la liste des descriptions des produits du client entré en paramètre
+    public List<String> getProductDescription(int customer_id) throws SQLException {
+
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customer_id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nom = rs.getString("DESCRIPTION");
+                result.add(nom);
+            }
+        }
+
+        return result;
+    }
+
+    // getPurchaseCost permet d'obtenir la liste des prix d'achat des produits achetés par le client entré en paramètre
+    public List<Double> getPurchaseCost(int customer_id) throws SQLException {
+
+        List<Double> result = new LinkedList<>();
+        String sql = "SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE customer_id = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customer_id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                double price = rs.getInt("Purchase_Cost");
+                result.add(price);
+            }
+        }
+
+        return result;
+    }
+    
+    // getPurchaseCost_p permet d'obtenir le prix d'achat du produit correspondant au bon de commande entré en paramètre
+    public double getPurchaseCost_p(int order) throws SQLException {
+
+        double result = 0;
+        String sql = "SELECT Purchase_Cost FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, order);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                result = rs.getInt("Purchase_Cost");
+            }
+            
+        }
+        return result;
+    }
+    
+    // getDescription_p permet d'obtenir la description du produit correspondant au bon de commande entré en paramètre
+    public String getDescription_p(int order) throws SQLException {
 
         String result = "";
-        String sql = "SELECT DISCOUNT_CODE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+        String sql = "SELECT DESCRIPTION FROM product INNER JOIN purchase_order ON product.product_id = purchase_order.product_id WHERE ORDER_NUM = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-
+            stmt.setInt(1, order);
             try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
-                result = rs.getString("DISCOUNT_CODE");
-            }
+                result = rs.getString("DESCRIPTION");
+            }  
         }
 
         return result;
     }
     
-    // getCreditLimit permet d'obtenir la limite de crédit d'un client
-    public int getCreditLimit(int id) throws SQLException {
-
-        int result = 0;
-        String sql = "SELECT CREDIT_LIMIT FROM CUSTOMER WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                result = rs.getInt("CREDIT_LIMIT");
-            }
-        }
-
-        return result;
-    }
-    
-    // modifyClient permet de modifier un client
-    public int modifyClient(String nom, String adresse, String complement, String ville, String etat, String cp, String phone, String fax, String email, int credit_limit, String dc, int id) throws SQLException {
-
-        int result = 0;
-        String sql = "UPDATE CUSTOMER SET NAME = ?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE = ?"
-                + ", FAX = ?, EMAIL = ?, ZIP = ?, CREDIT_LIMIT = ?, DISCOUNT_CODE = ?  WHERE CUSTOMER_ID = ?";
-
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            
-            stmt.setString(1, nom);
-            stmt.setString(2, adresse);
-            stmt.setString(3, complement);
-            stmt.setString(4, ville);
-            stmt.setString(5, etat);
-            stmt.setString(6, phone);
-            stmt.setString(7, fax);
-            stmt.setString(8, email);
-            stmt.setString(9, cp);
-            stmt.setInt(10, credit_limit);
-            stmt.setString(11, dc);
-            stmt.setInt(12, id);
-
-            result = stmt.executeUpdate();
-        }
-        return result;
-    }
-    
-    
+    // </editor-fold>
 }
