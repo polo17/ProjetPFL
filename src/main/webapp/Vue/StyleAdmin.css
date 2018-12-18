@@ -66,6 +66,7 @@ h4{
 
 footer {
     position: absolute;
+    top:1900px;
     bottom: 0;
     left: 0;
     right: 0;  

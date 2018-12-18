@@ -64,6 +64,7 @@ td {
 
 footer {
     position: absolute;
+    top:800px;
     bottom: 0;
     left: 0;
     right: 0
